@@ -1,2 +1,6 @@
-const x = 100
-console.log(x);
+import indexTpl from './views/index.art'
+
+// template function
+const html = indexTpl({})
+
+$('#root').html(html)
