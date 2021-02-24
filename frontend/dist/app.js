@@ -93,8 +93,10 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("const x = 100\nconsole.log(x);\n\n//# sourceURL=webpack:///./src/app.js?");
+const x = 100
+console.log(x);
 
 /***/ })
 
 /******/ });
+//# sourceMappingURL=app.js.map
