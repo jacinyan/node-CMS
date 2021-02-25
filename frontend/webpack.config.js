@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
 module.exports = {
@@ -15,20 +16,23 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: '[name].js'
+        filename: '[name]-[hash:6].js'
     },
 
-    // loaders
+    // mind 'use' 
     module: {
         rules: [{
             test: /\.art$/,
-            use: {
-                loader: 'art-template-loader'
-            }
+            use: [
+                {
+                    loader: 'art-template-loader'
+                }
+            ]
         }]
     },
 
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, '/public/index.html'),
             filename: 'index.html',
@@ -36,8 +40,7 @@ module.exports = {
             inject: true
         }),
         new CopyPlugin(
-            {
-                //missing 'patterns' for ^6.x.x 
+            {//missing 'patterns' for ^6.x.x 
                 patterns:
                     [{
 

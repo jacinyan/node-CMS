@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "art-template": "^4.13.2",
     "art-template-loader": "^1.4.3",
+    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "6.4.1",
     "html-webpack-plugin": "4.5.2",
     "webpack": "4.44.2",
@@ -14,8 +16,5 @@
   "scripts": {
     "build": "npx webpack",
     "dev": "npx webpack-dev-server"
-  },
-  "dependencies": {
-    "art-template": "^4.13.2"
   }
 }
