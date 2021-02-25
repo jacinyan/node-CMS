@@ -1,6 +1,7 @@
 import indexTpl from './views/index.art'
+import loginTpl from './views/login.art'
 
-// template function
-const html = indexTpl({})
+// template functions
+const html = loginTpl({})
 
 $('#root').html(html)
