@@ -42,11 +42,18 @@ module.exports = {
         new CopyPlugin(
             {//missing 'patterns' for ^6.x.x 
                 patterns:
-                    [{
+                    [
+                        {
 
-                        from: './public/*.ico',
-                        to: path.join(__dirname, '/dist/favicon.ico'),
-                    }]
+                            from: './public/*.ico',
+                            to: path.join(__dirname, '/dist/favicon.ico'),
+                        },
+                        {
+
+                            from: './public/libs',
+                            to: path.join(__dirname, '/dist/libs'),
+                        },
+                    ]
             }
         )
     ],
