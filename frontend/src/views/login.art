@@ -6,7 +6,7 @@
   <div class="login-box-body">
     <p class="login-box-msg">Pleae log in</p>
 
-    <form action="../index2.html" method="post">
+    <form action="" id="login">
       <div class="form-group has-feedback">
         <input type="text" class="form-control" placeholder="Username">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -17,7 +17,7 @@
       </div>
       <div class="row">
         <div class="col-xs-6 col-xs-offset-3">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat" >Login</button>
         </div>
         <!-- /.col -->
       </div>
