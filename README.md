@@ -2,14 +2,13 @@
 
 ### Frontend
 
-- webpack
-- SASS preprocessor
+- Webpack
+- SASS
 - Axios
 - JQuery
 - ES Module, CommonJS Module
-- SME-router
 - Bootstrap(AdminLTE)
-- RMVC:Art-template
+- Art-template
 
 ## Backend
 

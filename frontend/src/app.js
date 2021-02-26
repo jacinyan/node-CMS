@@ -1,7 +1,4 @@
-import indexTpl from './views/index.art'
-import loginTpl from './views/login.art'
+// import Routes
+import router from './routes'
 
-// template functions
-const html = loginTpl({})
-
-$('#root').html(html)
+router.go('/')
