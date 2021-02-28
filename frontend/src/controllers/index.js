@@ -1,12 +1,11 @@
 import indexTpl from '../views/index.art'
 import loginTpl from '../views/login.art'
 
-// template functions
+// template functions that return a template instance
 const htmlIndex = indexTpl({})
 const htmlLogin = loginTpl({})
 
 const _handleSubmit = (router) => {
-
     return (e) => {
         e.preventDefault()
         router.go('/index')
@@ -25,7 +24,11 @@ const login = (router) => {
 const index = (router) => {
     return (req, res, next) => {
         res.render(htmlIndex)
+
+        // trigger automatic content wrapper resizing
+        $(window, '.wrapper').resize()
     }
+
 }
 
 export {

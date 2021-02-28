@@ -23,11 +23,11 @@ module.exports = {
     module: {
         rules: [{
             test: /\.art$/,
-            use: [
-                {
-                    loader: 'art-template-loader'
-                }
-            ]
+            use: [{ loader: 'art-template-loader' },]
+        },
+        {
+            test: /\.css$/i,
+            loaders: ['style-loader', 'css-loader']
         }]
     },
 
