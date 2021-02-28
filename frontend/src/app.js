@@ -4,6 +4,6 @@ import './assets/common.css'
 // import routes
 import router from './routes'
 
-router.go('/')
+router.go('/index')
 
-// fixed content wrapper resizing 
+
