@@ -8,12 +8,12 @@ mongoose.connect('mongodb://localhost:27017/node-CRM', {
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error'))
 
-// create users model
+// create user model
 const usersSchema = new mongoose.Schema({
     username: String,
     password: String
   });
 
-const User = mongoose.model('users', usersSchema);
+const usersModel = mongoose.model('users', usersSchema);
  
-exports.User = User
+exports.User = usersModel

@@ -1,21 +1,39 @@
-const user = require('../model/user')
+// import User model
+const User = require('../model/user')
 
 // user register middleware
-const register = (req, res, next) => {
+const _register = async (req, res, next) => {
     const { username, password } = req.body
     // console.log(username, password);
 
-    user.register({
-        username,
-        password
-    })
+    // check if a user exists
+    let findResult = await User.findUser(username)
+    // console.log(findResult);
 
-    res.render('success', {
-        data: JSON.stringify({
+    // response to the result
+    if (findResult) {
+        res.render('fail', {
+            data: JSON.stringify({
+                message: 'Username exists'
+            })
+        })
+    } else {
+        
+        let result = await User.register({
             username,
             password
         })
-    })
+
+        console.log(result);
+
+        res.render('success', {
+            data: JSON.stringify({
+                username,
+                password
+            })
+        })
+    }
+
 }
 
-exports.register = register
+exports.register = _register
