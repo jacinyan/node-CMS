@@ -13,6 +13,23 @@ const _handleSubmit = (router) => {
     }
 }
 
+const _register = () => {
+    const $btn_close = $('#users-close')
+
+    // collect form data
+    const data = $('#users-form').serialize()
+    $.ajax({
+        url: '/api/users/register',
+        type: 'POST',
+        data,
+        success(res){
+            console.log(res);
+        }
+    })
+
+    $btn_close.click()
+}
+
 const login = (router) => {
     return (req, res, next) => {
         res.render(htmlLogin)
@@ -22,6 +39,10 @@ const login = (router) => {
     }
 }
 
+const register = () => {
+
+}
+
 const index = (router) => {
     return (req, res, next) => {
         res.render(htmlIndex)
@@ -29,13 +50,17 @@ const index = (router) => {
         // trigger automatic content wrapper resizing
         $(window, '.wrapper').resize()
 
-        // fill user list
+        // fill content with users list
         $('#content').html(usersTpl())
+
+        // _register callback onclick
+        $('#users-save').on('click', _register)
     }
 
 }
 
 export {
     login,
+    register,
     index
 }
