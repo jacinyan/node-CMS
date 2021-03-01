@@ -1,5 +1,6 @@
 import indexTpl from '../views/index.art'
 import loginTpl from '../views/login.art'
+import usersTpl from '../views/users.art'
 
 // template functions that return a template instance
 const htmlIndex = indexTpl({})
@@ -27,6 +28,9 @@ const index = (router) => {
 
         // trigger automatic content wrapper resizing
         $(window, '.wrapper').resize()
+
+        // fill user list
+        $('#content').html(usersTpl())
     }
 
 }
