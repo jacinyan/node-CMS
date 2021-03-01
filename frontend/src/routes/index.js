@@ -1,5 +1,5 @@
 import SMERouter from 'sme-router'
-// controllers
+// middleware from controllers
 import { login, index } from '../controllers'
 
 const router = new SMERouter('root')

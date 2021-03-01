@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-
-const { register } = require('../controllers/users')
 // middleware from users controller
+const { register } = require('../controllers/users')
+
+
+// user register
 router.post('/register', register);
-
-
 
 module.exports = router;
