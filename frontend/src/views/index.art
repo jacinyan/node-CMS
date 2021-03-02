@@ -229,11 +229,8 @@
       </ol>
     </section>
 
-    <!-- Main content -->
-    <section class="content" id="content">
-
-
-    </section>
+    <!-- Main content -- check users.art -->
+    <section class="content" id="content"></section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

@@ -19,7 +19,8 @@ const register = ({ username, password }) => {
 
 // findList
 const findList = () => {
-  return User.find()
+    // order DSC
+    return User.find().sort({ _id: -1 })
 }
 
 module.exports = {

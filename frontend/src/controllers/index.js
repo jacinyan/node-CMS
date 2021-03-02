@@ -2,10 +2,15 @@ import indexTpl from '../views/index.art'
 import loginTpl from '../views/login.art'
 import usersTpl from '../views/users.art'
 import usersListTpl from '../views/users-list.art'
+import usersListNavTpl from '../views/users-list-nav.art'
 
 // template functions that return a template instance
 const htmlIndex = indexTpl({})
 const htmlLogin = loginTpl({})
+
+// global vars/const for users list display
+const pageSize = 10
+let sourceUsers = []
 
 const _handleSubmit = (router) => {
     return (e) => {
@@ -14,6 +19,7 @@ const _handleSubmit = (router) => {
     }
 }
 
+// note: similar logic as registering new users
 const _register = () => {
     const $btn_close = $('#users-close')
 
@@ -23,24 +29,59 @@ const _register = () => {
         url: '/api/users/register',
         type: 'POST',
         data,
-        success(res){
-            console.log(res);
+        success(result) {
+            console.log(result);
+
+            // redirect to first page with newly reg'ed user
+            _getUsersData()
+            _list()
         }
     })
+
     // trigger close event
     $btn_close.click()
 }
 
-const _list = () => {
-  $.ajax({
-      url: '/api/users/list',
-      success(res){
-        // render users list
-        $('#users-list').html(usersListTpl({
-            data: res.data
-        }))
-      }
-  })
+// pagination
+const _pagination = (data) => {
+    const total = data.length
+    const pagesCount = Math.ceil(total / pageSize)
+    const countArray = new Array(pagesCount)
+
+    const htmlListNav = usersListNavTpl({
+        countArray
+    })
+
+    $('#users-footer').html(htmlListNav)
+
+    // first page selected by default
+    $('#users-list-nav li:nth-child(2)').addClass('active')
+    $('#users-list-nav li:not(:first-child, :last-child)').on('click', function () {
+        $(this).addClass('active').siblings().removeClass('active')
+        _list($(this).index())
+    })
+}
+
+const _getUsersData = () => {
+    $.ajax({
+        url: '/api/users/list',
+        async: false,
+        success(result) {
+            sourceUsers = result.data
+
+            // start paginating
+            _pagination(result.data)
+        }
+    })
+}
+
+// get users list
+const _list = (pageNum) => {
+    let start = (pageNum - 1) * pageSize
+    // render users list
+    $('#users-list').html(usersListTpl({
+        data: sourceUsers.slice(start, start + pageSize)
+    }))
 }
 
 const login = (router) => {
@@ -62,14 +103,14 @@ const index = (router) => {
         // fill content with users list
         $('#content').html(usersTpl())
 
-        // execute _list
-        _list()
+        // initial list rendering
+        _getUsersData()
+        _list(1)
 
         // _register callback onclick
         $('#users-save').on('click', _register)
 
     }
-
 }
 
 export {
