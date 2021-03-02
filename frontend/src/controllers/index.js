@@ -4,42 +4,67 @@ import usersTpl from '../views/users.art'
 import usersListTpl from '../views/users-list.art'
 import usersListNavTpl from '../views/users-list-nav.art'
 
-// template functions that return a template instance
+// fetch views templates
 const htmlIndex = indexTpl({})
 const htmlLogin = loginTpl({})
 
-// global vars/const for users list display
+// global vars/const for users list rendering and pagination
 const pageSize = 10
 let sourceUsers = []
 
-const _handleSubmit = (router) => {
-    return (e) => {
-        e.preventDefault()
-        router.go('/index')
+// *business logic begins
+const login = (router) => {
+    return (req, res, next) => {
+        res.render(htmlLogin)
+
+        // event binding
+        $('#login').on('submit', _handleSubmit(router))
     }
 }
 
-// note: similar logic as registering new users
-const _register = () => {
-    const $btn_close = $('#users-close')
+const index = (router) => {
+    return (req, res, next) => {
+        // render home
+        res.render(htmlIndex)
 
-    // collect form data
-    const data = $('#users-form').serialize()
+        // trigger automatic content wrapper resizing
+        $(window, '.wrapper').resize()
+
+        // fill content with users list
+        $('#content').html(usersTpl())
+
+        // users list initial rendering
+        _getUsersData()
+        _list(1)
+
+        // _register callback onclick
+        $('#users-save').on('click', _register)
+
+    }
+}
+
+// *private functions
+// fetch users data
+const _getUsersData = () => {
     $.ajax({
-        url: '/api/users/register',
-        type: 'POST',
-        data,
+        url: '/api/users/list',
+        async: false,
         success(result) {
-            console.log(result);
+            sourceUsers = result.data
 
-            // redirect to first page with newly reg'ed user
-            _getUsersData()
-            _list()
+            // start paginating
+            _pagination(result.data)
         }
     })
+}
 
-    // trigger close event
-    $btn_close.click()
+// users list rendering
+const _list = (pageNum) => {
+    let start = (pageNum - 1) * pageSize
+    // render users list
+    $('#users-list').html(usersListTpl({
+        data: sourceUsers.slice(start, start + pageSize)
+    }))
 }
 
 // pagination
@@ -54,63 +79,43 @@ const _pagination = (data) => {
 
     $('#users-footer').html(htmlListNav)
 
-    // first page selected by default
+    // first page active by default
     $('#users-list-nav li:nth-child(2)').addClass('active')
+    // page navigation
     $('#users-list-nav li:not(:first-child, :last-child)').on('click', function () {
         $(this).addClass('active').siblings().removeClass('active')
         _list($(this).index())
     })
 }
 
-const _getUsersData = () => {
-    $.ajax({
-        url: '/api/users/list',
-        async: false,
-        success(result) {
-            sourceUsers = result.data
+const _handleSubmit = (router) => {
+    return (e) => {
+        e.preventDefault()
+        router.go('/index')
+    }
+}
 
-            // start paginating
-            _pagination(result.data)
+// similar logic to registering new users
+const _register = () => {
+    const $btn_close = $('#users-close')
+
+    // collect form data
+    const data = $('#users-form').serialize()
+    $.ajax({
+        url: '/api/users/register',
+        type: 'POST',
+        data,
+        success(result) {
+            console.log(result);
+
+            // render first page with newly reg'ed user
+            _getUsersData()
+            _list(1)
         }
     })
-}
 
-// get users list
-const _list = (pageNum) => {
-    let start = (pageNum - 1) * pageSize
-    // render users list
-    $('#users-list').html(usersListTpl({
-        data: sourceUsers.slice(start, start + pageSize)
-    }))
-}
-
-const login = (router) => {
-    return (req, res, next) => {
-        res.render(htmlLogin)
-
-        // event binding
-        $('#login').on('submit', _handleSubmit(router))
-    }
-}
-const index = (router) => {
-    return (req, res, next) => {
-        // render home
-        res.render(htmlIndex)
-
-        // trigger automatic content wrapper resizing
-        $(window, '.wrapper').resize()
-
-        // fill content with users list
-        $('#content').html(usersTpl())
-
-        // initial list rendering
-        _getUsersData()
-        _list(1)
-
-        // _register callback onclick
-        $('#users-save').on('click', _register)
-
-    }
+    // trigger close event
+    $btn_close.click()
 }
 
 export {
