@@ -1,6 +1,7 @@
 import indexTpl from '../views/index.art'
 import loginTpl from '../views/login.art'
 import usersTpl from '../views/users.art'
+import usersListTpl from '../views/users-list.art'
 
 // template functions that return a template instance
 const htmlIndex = indexTpl({})
@@ -30,6 +31,18 @@ const _register = () => {
     $btn_close.click()
 }
 
+const _list = () => {
+  $.ajax({
+      url: '/api/users/list',
+      success(res){
+        // render users list
+        $('#users-list').html(usersListTpl({
+            data: res.data
+        }))
+      }
+  })
+}
+
 const login = (router) => {
     return (req, res, next) => {
         res.render(htmlLogin)
@@ -38,13 +51,9 @@ const login = (router) => {
         $('#login').on('submit', _handleSubmit(router))
     }
 }
-
-const register = () => {
-
-}
-
 const index = (router) => {
     return (req, res, next) => {
+        // render home
         res.render(htmlIndex)
 
         // trigger automatic content wrapper resizing
@@ -53,14 +62,17 @@ const index = (router) => {
         // fill content with users list
         $('#content').html(usersTpl())
 
+        // execute _list
+        _list()
+
         // _register callback onclick
         $('#users-save').on('click', _register)
+
     }
 
 }
 
 export {
     login,
-    register,
     index
 }

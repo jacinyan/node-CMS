@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var app = express();
-// cors module
 // var cors = require('cors')
 
 // import usersRouter
@@ -20,10 +19,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// allow cors
+// allow cors(achieved another way with webpack proxy config )
 // app.use(cors())
 
-// setup register route with usersRouter callback
+// usersRouter callback for mutiple users requests
 app.use('/api/users', usersRouter);
 
 // catch 404 and forward to error handler

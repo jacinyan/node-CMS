@@ -7,7 +7,7 @@ const _register = async (req, res, next) => {
     const { username, password } = req.body
     // console.log(username, password);
     // set res headers
-    res.set('content-type', 'application/json;charset=utf-8')   
+    res.set('content-type', 'application/json;charset=utf-8')
 
     // encrypt passwords
     const bcryptPassword = await hash(password)
@@ -35,11 +35,24 @@ const _register = async (req, res, next) => {
 
         res.render('success', {
             data: JSON.stringify({
-                message:'Successfully registered'
+                message: 'Successfully registered'
             })
         })
     }
 
 }
 
-exports.register = _register
+// get users list
+const _list = async (req, res, next) => {
+    res.set('content-type', 'application/json;charset=utf-8')
+
+    const list = await User.findList()
+    res.render('success', {
+        data: JSON.stringify(list)
+    })
+}
+
+module.exports = {
+    register: _register,
+    list: _list
+}

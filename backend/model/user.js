@@ -17,7 +17,13 @@ const register = ({ username, password }) => {
     return user.save()
 }
 
+// findList
+const findList = () => {
+  return User.find()
+}
+
 module.exports = {
     findUser,
-    register
+    register,
+    findList
 }
