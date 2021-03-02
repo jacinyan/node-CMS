@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var app = express();
+// cors module
+// var cors = require('cors')
 
 // import usersRouter
 const usersRouter = require('./routes/users');
@@ -17,6 +19,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// allow cors
+// app.use(cors())
 
 // setup register route with usersRouter callback
 app.use('/api/users', usersRouter);

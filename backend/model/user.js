@@ -13,6 +13,7 @@ const register = ({ username, password }) => {
         username,
         password
     })
+    // return a promise
     return user.save()
 }
 

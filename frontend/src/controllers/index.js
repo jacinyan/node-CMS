@@ -26,7 +26,7 @@ const _register = () => {
             console.log(res);
         }
     })
-
+    // trigger close event
     $btn_close.click()
 }
 

@@ -30,6 +30,7 @@ const _register = async (req, res, next) => {
             password: bcryptPassword
         })
 
+        // register prompt
         console.log(`User ${result.username} is registered`);
 
         res.render('success', {
