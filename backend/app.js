@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // allow cors(achieved another way with webpack proxy config )
 // app.use(cors())
 
-// usersRouter callback for mutiple users requests
+// specify users routes
 app.use('/api/users', usersRouter);
 
 // catch 404 and forward to error handler

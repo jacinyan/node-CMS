@@ -45,14 +45,14 @@ const index = (router) => {
 // fetch users data
 const _getUsersData = () => {
     $.ajax({
-        url: '/api/users/list',
+        url: '/api/users',
         // async: false,
         success(result) {
             sourceUsers = result.data
 
             // pagination once only with each data fetching
             _pagination(result.data)
-            // data rendering
+            // data rendering when login and new registered user
             _list(1)
         }
     })
@@ -101,7 +101,7 @@ const _register = () => {
     // collect form data
     const data = $('#users-form').serialize()
     $.ajax({
-        url: '/api/users/register',
+        url: '/api/users',
         type: 'POST',
         data,
         success:  (result) => {

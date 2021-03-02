@@ -3,7 +3,7 @@ const User = require('../model/user')
 // 
 const { hash } = require('../utils/tools')
 
-const _register = async (req, res, next) => {
+const register = async (req, res, next) => {
     const { username, password } = req.body
     // console.log(username, password);
     // set res headers
@@ -25,7 +25,7 @@ const _register = async (req, res, next) => {
         })
     } else {
 
-        let result = await User.register({
+        let result = await User.registerUser({
             username,
             password: bcryptPassword
         })
@@ -43,16 +43,32 @@ const _register = async (req, res, next) => {
 }
 
 // get users list
-const _list = async (req, res, next) => {
+const list = async (req, res, next) => {
     res.set('content-type', 'application/json;charset=utf-8')
 
-    const list = await User.findList()
+    const listResult = await User.findList()
     res.render('success', {
-        data: JSON.stringify(list)
+        data: JSON.stringify(listResult)
     })
 }
 
+// delete user
+const remove = async (req, res, next) => {
+    res.set('content-type', 'application/json;charset=utf-8')
+
+    const { id } = req.body
+    let result = await User.removeUser(id)
+    console.log(result);
+    res.render('success', {
+        data: JSON.stringify({
+            message: 'User successfully deleted'
+        })
+    })
+}
+
+
 module.exports = {
-    register: _register,
-    list: _list
+    register,
+    list,
+    remove
 }

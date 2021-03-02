@@ -8,7 +8,7 @@ const findUser = (username) => {
 }
 
 // register new user
-const register = ({ username, password }) => {
+const registerUser = ({ username, password }) => {
     const user = new User({
         username,
         password
@@ -23,8 +23,14 @@ const findList = () => {
     return User.find().sort({ _id: -1 })
 }
 
+const removeUser = id => {
+    console.log(id);
+    return User.findByIdAndRemove(id)
+}
+
 module.exports = {
     findUser,
-    register,
-    findList
+    registerUser,
+    findList,
+    removeUser
 }
