@@ -3,7 +3,7 @@ const { User } = require('../utils/db')
 
 // query if there's an existing user
 const findUser = (username) => {
-    // console.log(User.findOne({ username }))  ==> Promise
+    // console.log(User.findOne({ username }))  ==> Promise<pending>
     return User.findOne({ username })
 }
 
