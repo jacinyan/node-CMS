@@ -12,12 +12,11 @@ const htmlLogin = loginTpl({})
 const pageSize = 10
 let sourceUsers = []
 
-// *business logic begins
+// ----business logic begins------
 const login = (router) => {
     return (req, res, next) => {
         res.render(htmlLogin)
 
-        // event binding
         $('#login').on('submit', _handleSubmit(router))
     }
 }
@@ -34,8 +33,7 @@ const index = (router) => {
         $('#content').html(usersTpl())
 
         // users list initial rendering
-        _getUsersData()
-        _list(1)
+         _getUsersData()
 
         // _register callback onclick
         $('#users-save').on('click', _register)
@@ -43,25 +41,26 @@ const index = (router) => {
     }
 }
 
-// *private functions
+// -----private functions--------
 // fetch users data
 const _getUsersData = () => {
     $.ajax({
         url: '/api/users/list',
-        async: false,
+        // async: false,
         success(result) {
             sourceUsers = result.data
 
-            // start paginating
+            // pagination once only with each data fetching
             _pagination(result.data)
+            // data rendering
+            _list(1)
         }
     })
 }
 
-// users list rendering
+// users list rendering by page indices
 const _list = (pageNum) => {
     let start = (pageNum - 1) * pageSize
-    // render users list
     $('#users-list').html(usersListTpl({
         data: sourceUsers.slice(start, start + pageSize)
     }))
@@ -81,7 +80,7 @@ const _pagination = (data) => {
 
     // first page active by default
     $('#users-list-nav li:nth-child(2)').addClass('active')
-    // page navigation
+    // page navigation callback
     $('#users-list-nav li:not(:first-child, :last-child)').on('click', function () {
         $(this).addClass('active').siblings().removeClass('active')
         _list($(this).index())
@@ -105,12 +104,11 @@ const _register = () => {
         url: '/api/users/register',
         type: 'POST',
         data,
-        success(result) {
+        success:  (result) => {
             console.log(result);
 
             // render first page with newly reg'ed user
-            _getUsersData()
-            _list(1)
+             _getUsersData()
         }
     })
 
