@@ -65,6 +65,22 @@ const index = (router) => {
             _setActivePage(index)
         })
 
+        // toggle with greater/less than
+        $('#users-footer').on('click','#users-list-nav li:first-child', function () {
+            if(currentPage>1){
+                currentPage--
+                _list(currentPage)
+                _setActivePage(currentPage)
+            }
+        })  
+        $('#users-footer').on('click','#users-list-nav li:last-child', function () {
+            if(currentPage < Math.ceil(sourceUsers.length / pageSize)){
+                currentPage++
+                _list(currentPage)
+                _setActivePage(currentPage)
+            }
+        })    
+        
         // users list initial rendering
         _getUsersData()
 
