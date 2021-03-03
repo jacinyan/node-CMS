@@ -3,6 +3,8 @@ import loginTpl from '../views/login.art'
 import usersTpl from '../views/users.art'
 import usersListTpl from '../views/users-list.art'
 import usersListNavTpl from '../views/users-list-nav.art'
+// import router 
+import router from '../routes/index'
 
 // fetch views templates
 const htmlIndex = indexTpl({})
@@ -32,6 +34,7 @@ const index = (router) => {
 
         // fill content with users list
         $('#content').html(usersTpl())
+
         // bind remove event to list container instead of the button(event delegate/bubbling)
         $('#users-list').on('click', '.remove', function () {
             $.ajax({
@@ -79,7 +82,13 @@ const index = (router) => {
                 _list(currentPage)
                 _setActivePage(currentPage)
             }
-        })    
+        })   
+        
+        // user sign out binding 
+        $('#users-sign-out').on('click',(e) => {
+          e.preventDefault()
+          router.go('/login')
+        })
         
         // users list initial rendering
         _getUsersData()
