@@ -31,9 +31,23 @@ const index = (router) => {
 
         // fill content with users list
         $('#content').html(usersTpl())
+        // bind remove event to list container instead of the button(event delegate/bubbling)
+        $('#users-list').on('click', '.remove', function () {
+            $.ajax({
+                url: '/api/users',
+                type: 'delete',
+                data: {
+                    // get dom named: data-id
+                    id: $(this).data('id')
+                },
+                success(){
+                    _getUsersData()
+                }
+            })
+        })
 
         // users list initial rendering
-         _getUsersData()
+        _getUsersData()
 
         // _register callback onclick
         $('#users-save').on('click', _register)
@@ -64,6 +78,8 @@ const _list = (pageNum) => {
     $('#users-list').html(usersListTpl({
         data: sourceUsers.slice(start, start + pageSize)
     }))
+
+
 }
 
 // pagination
@@ -104,11 +120,11 @@ const _register = () => {
         url: '/api/users',
         type: 'POST',
         data,
-        success:  (result) => {
+        success: (result) => {
             console.log(result);
 
             // render first page with newly reg'ed user
-             _getUsersData()
+            _getUsersData()
         }
     })
 

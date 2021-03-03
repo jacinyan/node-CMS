@@ -59,9 +59,17 @@ const remove = async (req, res, next) => {
     const { id } = req.body
     let result = await User.removeUser(id)
     console.log(result);
-    res.render('success', {
+    if (result) {
+        res.render('success', {
+            data: JSON.stringify({
+                message: 'User successfully deleted'
+            })
+        })
+        return
+    }
+    res.render('fail', {
         data: JSON.stringify({
-            message: 'User successfully deleted'
+            message: 'User not deleted'
         })
     })
 }
