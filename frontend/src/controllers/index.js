@@ -9,8 +9,9 @@ const htmlIndex = indexTpl({})
 const htmlLogin = loginTpl({})
 
 // global vars/const for users list rendering and pagination
-const pageSize = 10
+const pageSize = 5
 let sourceUsers = []
+let currentPage = 1
 
 // ----business logic begins------
 const login = (router) => {
@@ -37,13 +38,22 @@ const index = (router) => {
                 url: '/api/users',
                 type: 'delete',
                 data: {
-                    // get dom named: data-id
+                    // get dom named 'data-id', and then its value from backend 
                     id: $(this).data('id')
                 },
-                success(){
+                success() {
                     _getUsersData()
                 }
             })
+        })
+
+        // page navigation callback
+        $('#users-footer').on('click', '#users-list-nav li:not(:first-child, :last-child)', function () {
+            const index = $(this).index()
+
+            _list(index)
+            currentPage = index
+            _setActivePage(index)
         })
 
         // users list initial rendering
@@ -67,7 +77,7 @@ const _getUsersData = () => {
             // pagination once only with each data fetching
             _pagination(result.data)
             // data rendering when login and new registered user
-            _list(1)
+            _list(currentPage)
         }
     })
 }
@@ -94,13 +104,15 @@ const _pagination = (data) => {
 
     $('#users-footer').html(htmlListNav)
 
-    // first page active by default
-    $('#users-list-nav li:nth-child(2)').addClass('active')
-    // page navigation callback
-    $('#users-list-nav li:not(:first-child, :last-child)').on('click', function () {
-        $(this).addClass('active').siblings().removeClass('active')
-        _list($(this).index())
-    })
+    _setActivePage(currentPage)
+}
+
+const _setActivePage = (index) => {
+    $('#users-footer #users-list-nav li:not(:first-child, :last-child)')
+        .eq(index - 1)
+        .addClass('active')
+        .siblings()
+        .removeClass('active')
 }
 
 const _handleSubmit = (router) => {
