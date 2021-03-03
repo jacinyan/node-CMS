@@ -43,6 +43,15 @@ const index = (router) => {
                 },
                 success() {
                     _getUsersData()
+
+                    // determine if the current page is empty and move forward
+                    const isLastPage = Math.ceil(sourceUsers.length / pageSize) === currentPage
+                    const restOne = sourceUsers.length % pageSize === 1
+                    const notFirstPage = currentPage > 0
+                    if (isLastPage && restOne && notFirstPage) {
+                        currentPage--
+                    }
+
                 }
             })
         })
