@@ -1,7 +1,8 @@
 import usersListNavTpl from '../views/users-list-nav.art'
+import page from '../components/page'
 
 // pagination bar
-const pagination = (data, pageSize, currentPage) => {
+const pagination = (data, pageSize) => {
     const total = data.length
     const pagesCount = Math.ceil(total / pageSize)
     const countArray = new Array(pagesCount)
@@ -12,9 +13,9 @@ const pagination = (data, pageSize, currentPage) => {
 
     $('#users-footer').html(htmlListNav)
 
-    _setActivePage(currentPage)
+    _setActivePage(page.currentPage)
 
-    _bindEvents()
+    _bindEvents(data, pageSize)
 }
 
 // set active page
@@ -26,10 +27,12 @@ const _setActivePage = (index) => {
         .removeClass('active')
 }
 
-const _bindEvents = () => {
+const _bindEvents = (data, pageSize) => {
     // page navigation callback
     $('#users-footer').on('click', '#users-list-nav li:not(:first-child, :last-child)', function () {
         const index = $(this).index()
+
+        page.setCurrentPage(index)
 
         $('body').trigger('changeCurrentPage', index)
         _setActivePage(index)
@@ -37,18 +40,22 @@ const _bindEvents = () => {
 
     // toggle with greater/less than in sync with active pages
     $('#users-footer').on('click', '#users-list-nav li:first-child', function () {
-        if (currentPage > 1) {
-            currentPage--
-            _list(currentPage)
-            _setActivePage(currentPage)
+        if (page.currentPage > 1) {
+            page.setCurrentPage(page.currentPage - 1)
+            
+            $('body').trigger('changeCurrentPage', page.currentPage)
+            console.log('left');
+            _setActivePage(page.currentPage)
         }
     })
 
     $('#users-footer').on('click', '#users-list-nav li:last-child', function () {
-        if (currentPage < Math.ceil(sourceUsers.length / pageSize)) {
-            currentPage++
-            _list(currentPage)
-            _setActivePage(currentPage)
+        console.log(page.currentPage);
+        if (page.currentPage < Math.ceil(data.length / pageSize)) {
+            page.setCurrentPage(page.currentPage + 1)
+            $('body').trigger('changeCurrentPage', page.currentPage)
+            console.log('right');
+            _setActivePage(page.currentPage)
         }
     })
 }

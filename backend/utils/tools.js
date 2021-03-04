@@ -20,3 +20,7 @@ exports.compare = (myPlaintextPassword, hash) => {
         });
     })
 }
+
+exports.sign = () => {
+  
+}

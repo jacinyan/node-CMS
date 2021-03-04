@@ -4,9 +4,9 @@ import usersTpl from '../views/users.art'
 import usersListTpl from '../views/users-list.art'
 
 import pagination from '../components/pagination'
+import page from '../components/page'
 
-let currentPage = 1
-const pageSize = 3
+const pageSize = page.pageSize
 
 
 // fetch views templates
@@ -53,6 +53,7 @@ const index = (router) => {
 const _subscribe = () => {
   $('body').on('changeCurrentPage', (e, index) => {
     _list(index);
+    console.log(page.currentPage);
   })
 }
 
@@ -69,13 +70,13 @@ const _methods = () => {
             },
             success() {
                 _getUsersData()
-
+                
                 // determine if the current page is empty and if so elimnate curretn page
-                const isLastPage = Math.ceil(sourceUsers.length / pageSize) === currentPage
+                const isLastPage = Math.ceil(sourceUsers.length / pageSize) === page.currentPage
                 const restOne = sourceUsers.length % pageSize === 1
-                const notFirstPage = currentPage > 0
+                const notFirstPage = page.currentPage > 0
                 if (isLastPage && restOne && notFirstPage) {
-                    currentPage--
+                    page.setCurrentPage(page.currentPage - 1)
                 }
 
             }
@@ -109,9 +110,9 @@ const _getUsersData = () => {
             sourceUsers = result.data
 
             // pagination once only with each data fetching
-            pagination(result.data, pageSize, currentPage)
+            pagination(result.data, pageSize)
             // data rendering when login and new registered user
-            _list(currentPage)
+            _list(page.currentPage)
         }
     })
 }
@@ -141,6 +142,7 @@ const _register = () => {
             console.log(result);
 
             // render first page with newly registered user
+            page.setCurrentPage(1)
             _getUsersData()
         }
     })
