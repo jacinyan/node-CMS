@@ -3,8 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var app = express();
 // var cors = require('cors')
+// import cookie-session
+var cookieSession = require('cookie-session')
+
+var app = express();
 
 // import usersRouter
 const usersRouter = require('./routes/users');
@@ -18,6 +21,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
 
 // allow cors(achieved another way with webpack proxy config )
 // app.use(cors())

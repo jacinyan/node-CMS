@@ -11,7 +11,7 @@ const htmlIndex = indexTpl({})
 const htmlLogin = loginTpl({})
 
 // global vars/const for users list rendering and pagination
-const pageSize = 5
+const pageSize = 10
 let sourceUsers = []
 let currentPage = 1
 
@@ -26,7 +26,7 @@ const login = (router) => {
 
 const index = (router) => {
     return (req, res, next) => {
-        // render home
+        // render home/admin dashboard
         res.render(htmlIndex)
 
         // trigger automatic content wrapper resizing
@@ -35,7 +35,7 @@ const index = (router) => {
         // fill content with users list
         $('#content').html(usersTpl())
 
-        // bind remove event to list container instead of the button(event delegate/bubbling)
+        // bind remove user event to list container instead of the button(event delegate/bubbling)
         $('#users-list').on('click', '.remove', function () {
             $.ajax({
                 url: '/api/users',
@@ -47,7 +47,7 @@ const index = (router) => {
                 success() {
                     _getUsersData()
 
-                    // determine if the current page is empty and move forward
+                    // determine if the current page is empty and if so elimnate curretn page
                     const isLastPage = Math.ceil(sourceUsers.length / pageSize) === currentPage
                     const restOne = sourceUsers.length % pageSize === 1
                     const notFirstPage = currentPage > 0
@@ -62,13 +62,14 @@ const index = (router) => {
         // page navigation callback
         $('#users-footer').on('click', '#users-list-nav li:not(:first-child, :last-child)', function () {
             const index = $(this).index()
-
+            // calculating the num of pages
             _list(index)
+            // set active page
             currentPage = index
             _setActivePage(index)
         })
 
-        // toggle with greater/less than
+        // toggle with greater/less than in sync with active pages
         $('#users-footer').on('click','#users-list-nav li:first-child', function () {
             if(currentPage>1){
                 currentPage--
@@ -93,7 +94,7 @@ const index = (router) => {
         // users list initial rendering
         _getUsersData()
 
-        // _register callback onclick
+        // _register callback onclick with popup modal
         $('#users-save').on('click', _register)
 
     }
@@ -116,7 +117,7 @@ const _getUsersData = () => {
     })
 }
 
-// users list rendering by page indices
+// calculate pages num with each operation
 const _list = (pageNum) => {
     let start = (pageNum - 1) * pageSize
     $('#users-list').html(usersListTpl({
@@ -126,7 +127,7 @@ const _list = (pageNum) => {
 
 }
 
-// pagination
+// pagination bar
 const _pagination = (data) => {
     const total = data.length
     const pagesCount = Math.ceil(total / pageSize)
@@ -141,6 +142,7 @@ const _pagination = (data) => {
     _setActivePage(currentPage)
 }
 
+// set active page
 const _setActivePage = (index) => {
     $('#users-footer #users-list-nav li:not(:first-child, :last-child)')
         .eq(index - 1)
@@ -169,7 +171,7 @@ const _register = () => {
         success: (result) => {
             console.log(result);
 
-            // render first page with newly reg'ed user
+            // render first page with newly registered user
             _getUsersData()
         }
     })

@@ -1,7 +1,9 @@
 // import User model from Model
 const User = require('../model/user')
 // 
-const { hash } = require('../utils/tools')
+const { hash, compare } = require('../utils/tools')
+
+
 
 const register = async (req, res, next) => {
     const { username, password } = req.body
@@ -42,6 +44,42 @@ const register = async (req, res, next) => {
 
 }
 
+// users login
+const login = async (req, res, next) => {
+    const { username, password } = req.body
+
+    let result = await User.findUser(username)
+    // authenticate user
+    if (result) {
+        let { password: hash } = result
+        // compare password from frontend and existing hash
+        let comparedResult =  await compare(password, hash)
+        if (comparedResult) {
+            req.session.username = username
+
+            res.render('success', {
+                data: JSON.stringify({
+                    username
+                })
+            })
+        } else {
+            console.log('wrong password');
+            res.render('fail', {
+                data: JSON.stringify({
+                    message: 'Incorrect username or password'
+                })
+            })
+        }
+    } else {
+        console.log('wrong username');
+        res.render('fail', {
+            data: JSON.stringify({
+                message: 'Incorrect username or password'
+            })
+        })
+    }
+}
+
 // get users list
 const list = async (req, res, next) => {
     res.set('content-type', 'application/json;charset=utf-8')
@@ -69,7 +107,7 @@ const remove = async (req, res, next) => {
     }
     res.render('fail', {
         data: JSON.stringify({
-            message: 'User not deleted'
+            message: 'User not successfully deleted'
         })
     })
 }
@@ -77,6 +115,7 @@ const remove = async (req, res, next) => {
 
 module.exports = {
     register,
+    login,
     list,
     remove
 }
