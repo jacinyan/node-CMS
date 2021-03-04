@@ -1,11 +1,15 @@
-const auth = (req,res,next) => {
-  if (req.session.username){
+const { verify } = require('../utils/tools')
+
+const auth = (req, res, next) => {
+  let token = req.get('X-Access-Token')
+  try {
+    let result = verify(token)
     next()
-  } else {
+  } catch (error) {
     res.render('fail', {
-        data: JSON.stringify({
-            message: 'Please log in'
-        })
+      data: JSON.stringify({
+        message: 'Please log in'
+      })
     })
   }
 }

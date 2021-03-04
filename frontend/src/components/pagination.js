@@ -1,6 +1,6 @@
 import usersListNavTpl from '../views/users-list-nav.art'
 // global page instance
-import page from '../components/page'
+import page from '../helper/page'
 
 // pagination bar
 const pagination = (data, pageSize) => {

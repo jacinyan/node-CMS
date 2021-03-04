@@ -11,11 +11,16 @@ router.use(() => {
     $.ajax({
         url: '/api/users/isAuth',
         dataType: 'json',
+        headers:{
+            'X-Access-Token': localStorage.getItem('crm-token') || ''
+        },
         success(result) {
             if (result.result) {
+                console.log('routes index --- 19.js')
+
                 router.go('/index')
             } else {
-                console.log(result.result);
+                console.log('routes index --- 23.js')
                 router.go('/login')
             }
         }

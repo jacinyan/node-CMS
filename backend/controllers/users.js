@@ -124,19 +124,32 @@ const remove = async (req, res, next) => {
 }
 
 const isAuth = async (req, res, next) => {
-    if (req.session.username) {
+    let token = req.get('X-Access-Token')
+    try {
+        let result = verify(token)
+        console.log(result);
         res.render('success', {
             data: JSON.stringify({
-                username: req.session.username
+                username: result.username
             })
         })
-    } else {
+    } catch (error) {
         res.render('fail', {
             data: JSON.stringify({
                 message: 'Please log in'
             })
         })
     }
+
+    // if (req.session.username) {
+    //     
+    // } else {
+    //     res.render('fail', {
+    //         data: JSON.stringify({
+    //             message: 'Please log in'
+    //         })
+    //     })
+    // }
 }
 
 

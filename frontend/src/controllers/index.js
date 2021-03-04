@@ -4,7 +4,7 @@ import usersTpl from '../views/users.art'
 import usersListTpl from '../views/users-list.art'
 
 import pagination from '../components/pagination'
-import page from '../components/page'
+import page from '../helper/page'
 
 const pageSize = page.pageSize
 
@@ -37,10 +37,14 @@ const index = (router) => {
         $.ajax({
             url: '/api/users/isAuth',
             dataType: 'json',
+            headers: {
+                'X-Access-Token': localStorage.getItem('crm-token') || ''
+            },
             success(result) {
                 if (result.result) {
                     loadIndex(res)
                 } else {
+                    console.log('controllers index --- 44.js')
                     router.go('/login')
                 }
             }
@@ -64,6 +68,9 @@ const _methods = () => {
         $.ajax({
             url: '/api/users',
             type: 'delete',
+            headers: {
+                'X-Access-Token': localStorage.getItem('crm-token') || ''
+            },
             data: {
                 // get dom named 'data-id', and then its value from backend 
                 id: $(this).data('id')
@@ -86,15 +93,20 @@ const _methods = () => {
     // user sign out binding 
     $('#users-sign-out').on('click', (e) => {
         e.preventDefault()
-        $.ajax({
-            url: '/api/users/logout',
-            dataType: 'json',
-            success(result) {
-                if (result.result) {
-                    location.reload()
-                }
-            }
-        })
+        localStorage.removeItem('crm-token')
+        location.reload()
+        // $.ajax({
+        //     url: '/api/users/logout',
+        //     dataType: 'json',
+        //     headers: {
+        //         'X-Access-Token': localStorage.getItem('crm-token') || ''
+        //     },
+        //     success(result) {
+        //         if (result.result) {
+        //             location.reload()
+        //         }
+        //     }
+        // })
     })
 
     // _register callback onclick with popup modal
@@ -106,6 +118,9 @@ const _methods = () => {
 const _getUsersData = () => {
     $.ajax({
         url: '/api/users',
+        headers: {
+            'X-Access-Token': localStorage.getItem('crm-token') || ''
+        },
         success(result) {
             sourceUsers = result.data
 
@@ -137,6 +152,9 @@ const _register = () => {
     $.ajax({
         url: '/api/users',
         type: 'POST',
+        headers: {
+            'X-Access-Token': localStorage.getItem('crm-token') || ''
+        },
         data,
         success: (result) => {
             console.log(result);

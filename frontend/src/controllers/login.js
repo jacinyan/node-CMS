@@ -19,9 +19,14 @@ const _handleSubmit = (router) => {
             type: 'POST',
             dataType: 'json',
             data,
-            success: (result) => {
-                if (result.result)
+            success: (result, textStatus, jqXHR) => {
+                const token = jqXHR.getResponseHeader('X-Access-Token')
+                localStorage.setItem('crm-token', token)
+                if (result.result){
+                    console.log('controllers login --- 26.js')
+
                     router.go('/index')
+                }
             }
         })
     }
