@@ -25,7 +25,8 @@ const login = (router) => {
 }
 
 const index = (router) => {
-    return (req, res, next) => {
+
+    const loadIndex = (res) => {
         // render home/admin dashboard
         res.render(htmlIndex)
 
@@ -88,7 +89,15 @@ const index = (router) => {
         // user sign out binding 
         $('#users-sign-out').on('click', (e) => {
             e.preventDefault()
-            router.go('/login')
+            $.ajax({
+                url: '/api/users/logout',
+                dataType: 'json',
+                success(result) {
+                    if (result.result) {
+                        location.reload()
+                    }
+                }
+            })
         })
 
         // users list initial rendering
@@ -96,6 +105,21 @@ const index = (router) => {
 
         // _register callback onclick with popup modal
         $('#users-save').on('click', _register)
+    }
+
+    return (req, res, next) => {
+        $.ajax({
+            url: '/api/users/isAuth',
+            dataType: 'json',
+            async: false,
+            success(result) {
+                if (result.result) {
+                    loadIndex(res)                    
+                } else {
+                    router.go('/login')
+                }
+            }
+        })
 
     }
 }
@@ -162,7 +186,7 @@ const _handleSubmit = (router) => {
             data,
             success: (result) => {
                 if (result.result)
-                router.go('/index')
+                    router.go('/index')
             }
         })
     }
