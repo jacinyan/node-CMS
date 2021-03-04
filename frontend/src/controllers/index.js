@@ -1,31 +1,21 @@
 import indexTpl from '../views/index.art'
-import loginTpl from '../views/login.art'
+
 import usersTpl from '../views/users.art'
 import usersListTpl from '../views/users-list.art'
 import usersListNavTpl from '../views/users-list-nav.art'
-// import router 
-import router from '../routes/index'
 
 // fetch views templates
 const htmlIndex = indexTpl({})
-const htmlLogin = loginTpl({})
 
 // global vars/const for users list rendering and pagination
 const pageSize = 10
 let sourceUsers = []
 let currentPage = 1
 
-// ----business logic begins------
-const login = (router) => {
-    return (req, res, next) => {
-        res.render(htmlLogin)
+// ----------------
 
-        $('#login').on('submit', _handleSubmit(router))
-    }
-}
 
 const index = (router) => {
-
     const loadIndex = (res) => {
         // render home/admin dashboard
         res.render(htmlIndex)
@@ -111,7 +101,6 @@ const index = (router) => {
         $.ajax({
             url: '/api/users/isAuth',
             dataType: 'json',
-            async: false,
             success(result) {
                 if (result.result) {
                     loadIndex(res)                    
@@ -175,23 +164,6 @@ const _setActivePage = (index) => {
         .removeClass('active')
 }
 
-const _handleSubmit = (router) => {
-    return (e) => {
-        e.preventDefault()
-        const data = $('#login').serialize()
-        $.ajax({
-            url: '/api/users/login',
-            type: 'POST',
-            dataType: 'json',
-            data,
-            success: (result) => {
-                if (result.result)
-                    router.go('/index')
-            }
-        })
-    }
-}
-
 // similar logic to registering new users
 const _register = () => {
     const $btn_close = $('#users-close')
@@ -214,7 +186,4 @@ const _register = () => {
     $btn_close.click()
 }
 
-export {
-    login,
-    index
-}
+export default index

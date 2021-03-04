@@ -16,7 +16,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: '[name]-[hash:6].js'
+        filename: '[name].js'
     },
 
     // mind 'use' 
@@ -32,7 +32,6 @@ module.exports = {
     },
 
     plugins: [
-        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, '/public/index.html'),
             filename: 'index.html',
@@ -55,7 +54,9 @@ module.exports = {
                         },
                     ]
             }
-        )
+        ),
+        // order
+        new CleanWebpackPlugin()
     ],
     // webpack server
     devServer: {

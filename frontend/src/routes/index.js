@@ -1,12 +1,13 @@
 import SMERouter from 'sme-router'
 // middleware from controllers
-import { login, index } from '../controllers'
+import index from '../controllers/index'
+import login from '../controllers/login'
 
 const router = new SMERouter('root')
 
-// route guard
+// route guard -- routing front gate
 router.use(() => {
-    // 
+    // auth 
     $.ajax({
         url: '/api/users/isAuth',
         dataType: 'json',
@@ -21,9 +22,7 @@ router.use(() => {
     })
 })
 
-router.route('/', () => {
-  
-})
+router.route('/', () => { })
 
 router.route('/login', login(router))
 
