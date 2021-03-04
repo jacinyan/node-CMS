@@ -1,4 +1,5 @@
 import usersListNavTpl from '../views/users-list-nav.art'
+// global page instance
 import page from '../components/page'
 
 // pagination bar

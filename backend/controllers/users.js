@@ -1,7 +1,7 @@
 // import User model from Model
 const User = require('../model/user')
 // encrypt password
-const { hash, compare } = require('../utils/tools')
+const { hash, compare, sign, verify } = require('../utils/tools')
 
 const register = async (req, res, next) => {
     const { username, password } = req.body
@@ -53,7 +53,10 @@ const login = async (req, res, next) => {
         // compare password from frontend and existing hash
         let comparedResult = await compare(password, hash)
         if (comparedResult) {
-            req.session.username = username
+            // req.session.username = username
+            const token = sign(username)
+            // custom response header
+            res.set('X-Access-Token', token)
 
             res.render('success', {
                 data: JSON.stringify({

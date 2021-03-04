@@ -26,7 +26,7 @@ const index = (router) => {
         $('#content').html(usersTpl())
         _getUsersData()
 
-        // index page events binding
+        // index page events binding methods
         _methods()
 
         // events subscription
