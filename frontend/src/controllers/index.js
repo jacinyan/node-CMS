@@ -70,27 +70,27 @@ const index = (router) => {
         })
 
         // toggle with greater/less than in sync with active pages
-        $('#users-footer').on('click','#users-list-nav li:first-child', function () {
-            if(currentPage>1){
+        $('#users-footer').on('click', '#users-list-nav li:first-child', function () {
+            if (currentPage > 1) {
                 currentPage--
                 _list(currentPage)
                 _setActivePage(currentPage)
             }
-        })  
-        $('#users-footer').on('click','#users-list-nav li:last-child', function () {
-            if(currentPage < Math.ceil(sourceUsers.length / pageSize)){
+        })
+        $('#users-footer').on('click', '#users-list-nav li:last-child', function () {
+            if (currentPage < Math.ceil(sourceUsers.length / pageSize)) {
                 currentPage++
                 _list(currentPage)
                 _setActivePage(currentPage)
             }
-        })   
-        
-        // user sign out binding 
-        $('#users-sign-out').on('click',(e) => {
-          e.preventDefault()
-          router.go('/login')
         })
-        
+
+        // user sign out binding 
+        $('#users-sign-out').on('click', (e) => {
+            e.preventDefault()
+            router.go('/login')
+        })
+
         // users list initial rendering
         _getUsersData()
 
@@ -154,7 +154,17 @@ const _setActivePage = (index) => {
 const _handleSubmit = (router) => {
     return (e) => {
         e.preventDefault()
-        router.go('/index')
+        const data = $('#login').serialize()
+        $.ajax({
+            url: '/api/users/login',
+            type: 'POST',
+            dataType: 'json',
+            data,
+            success: (result) => {
+                if (result.result)
+                router.go('/index')
+            }
+        })
     }
 }
 

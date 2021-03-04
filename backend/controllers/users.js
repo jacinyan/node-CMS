@@ -1,9 +1,7 @@
 // import User model from Model
 const User = require('../model/user')
-// 
+// encrypt password
 const { hash, compare } = require('../utils/tools')
-
-
 
 const register = async (req, res, next) => {
     const { username, password } = req.body
@@ -53,7 +51,7 @@ const login = async (req, res, next) => {
     if (result) {
         let { password: hash } = result
         // compare password from frontend and existing hash
-        let comparedResult =  await compare(password, hash)
+        let comparedResult = await compare(password, hash)
         if (comparedResult) {
             req.session.username = username
 
@@ -78,6 +76,16 @@ const login = async (req, res, next) => {
             })
         })
     }
+}
+
+// users log out
+const logout = async (req, res, next) => {
+    req.session = null
+    res.render('success', {
+        data: JSON.stringify({
+            message: 'Logged out'
+        })
+    })
 }
 
 // get users list
@@ -112,10 +120,28 @@ const remove = async (req, res, next) => {
     })
 }
 
+const isAuth = async (req, res, next) => {
+    if (req.session.username) {
+        res.render('success', {
+            data: JSON.stringify({
+                username: req.session.username
+            })
+        })
+    } else {
+        res.render('fail', {
+            data: JSON.stringify({
+                message: 'Please log in'
+            })
+        })
+    }
+}
+
 
 module.exports = {
     register,
     login,
+    logout,
     list,
-    remove
+    remove,
+    isAuth
 }
