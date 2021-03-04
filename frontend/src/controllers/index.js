@@ -2,18 +2,17 @@ import indexTpl from '../views/index.art'
 
 import usersTpl from '../views/users.art'
 import usersListTpl from '../views/users-list.art'
-import usersListNavTpl from '../views/users-list-nav.art'
+
+import pagination from '../components/pagination'
+
+let currentPage = 1
+const pageSize = 3
+
 
 // fetch views templates
 const htmlIndex = indexTpl({})
 
-// global vars/const for users list rendering and pagination
-const pageSize = 10
 let sourceUsers = []
-let currentPage = 1
-
-// ----------------
-
 
 const index = (router) => {
     const loadIndex = (res) => {
@@ -23,78 +22,15 @@ const index = (router) => {
         // trigger automatic content wrapper resizing
         $(window, '.wrapper').resize()
 
-        // fill content with users list
+        // fill content with users list at initial rendering
         $('#content').html(usersTpl())
-
-        // bind remove user event to list container instead of the button(event delegate/bubbling)
-        $('#users-list').on('click', '.remove', function () {
-            $.ajax({
-                url: '/api/users',
-                type: 'delete',
-                data: {
-                    // get dom named 'data-id', and then its value from backend 
-                    id: $(this).data('id')
-                },
-                success() {
-                    _getUsersData()
-
-                    // determine if the current page is empty and if so elimnate curretn page
-                    const isLastPage = Math.ceil(sourceUsers.length / pageSize) === currentPage
-                    const restOne = sourceUsers.length % pageSize === 1
-                    const notFirstPage = currentPage > 0
-                    if (isLastPage && restOne && notFirstPage) {
-                        currentPage--
-                    }
-
-                }
-            })
-        })
-
-        // page navigation callback
-        $('#users-footer').on('click', '#users-list-nav li:not(:first-child, :last-child)', function () {
-            const index = $(this).index()
-            // calculating the num of pages
-            _list(index)
-            // set active page
-            currentPage = index
-            _setActivePage(index)
-        })
-
-        // toggle with greater/less than in sync with active pages
-        $('#users-footer').on('click', '#users-list-nav li:first-child', function () {
-            if (currentPage > 1) {
-                currentPage--
-                _list(currentPage)
-                _setActivePage(currentPage)
-            }
-        })
-        $('#users-footer').on('click', '#users-list-nav li:last-child', function () {
-            if (currentPage < Math.ceil(sourceUsers.length / pageSize)) {
-                currentPage++
-                _list(currentPage)
-                _setActivePage(currentPage)
-            }
-        })
-
-        // user sign out binding 
-        $('#users-sign-out').on('click', (e) => {
-            e.preventDefault()
-            $.ajax({
-                url: '/api/users/logout',
-                dataType: 'json',
-                success(result) {
-                    if (result.result) {
-                        location.reload()
-                    }
-                }
-            })
-        })
-
-        // users list initial rendering
         _getUsersData()
 
-        // _register callback onclick with popup modal
-        $('#users-save').on('click', _register)
+        // index page events binding
+        _methods()
+
+        // events subscription
+        _subscribe()
     }
 
     return (req, res, next) => {
@@ -103,7 +39,7 @@ const index = (router) => {
             dataType: 'json',
             success(result) {
                 if (result.result) {
-                    loadIndex(res)                    
+                    loadIndex(res)
                 } else {
                     router.go('/login')
                 }
@@ -113,17 +49,67 @@ const index = (router) => {
     }
 }
 
-// -----private functions--------
+// PubSub
+const _subscribe = () => {
+  $('body').on('changeCurrentPage', (e, index) => {
+    _list(index);
+  })
+}
+
+// methods
+const _methods = () => {
+    // bind remove user event to list container instead of the button(event delegate/bubbling)
+    $('#users-list').on('click', '.remove', function () {
+        $.ajax({
+            url: '/api/users',
+            type: 'delete',
+            data: {
+                // get dom named 'data-id', and then its value from backend 
+                id: $(this).data('id')
+            },
+            success() {
+                _getUsersData()
+
+                // determine if the current page is empty and if so elimnate curretn page
+                const isLastPage = Math.ceil(sourceUsers.length / pageSize) === currentPage
+                const restOne = sourceUsers.length % pageSize === 1
+                const notFirstPage = currentPage > 0
+                if (isLastPage && restOne && notFirstPage) {
+                    currentPage--
+                }
+
+            }
+        })
+    })
+
+    // user sign out binding 
+    $('#users-sign-out').on('click', (e) => {
+        e.preventDefault()
+        $.ajax({
+            url: '/api/users/logout',
+            dataType: 'json',
+            success(result) {
+                if (result.result) {
+                    location.reload()
+                }
+            }
+        })
+    })
+
+    // _register callback onclick with popup modal
+    $('#users-save').on('click', _register)
+}
+
+
 // fetch users data
 const _getUsersData = () => {
     $.ajax({
         url: '/api/users',
-        // async: false,
         success(result) {
             sourceUsers = result.data
 
             // pagination once only with each data fetching
-            _pagination(result.data)
+            pagination(result.data, pageSize, currentPage)
             // data rendering when login and new registered user
             _list(currentPage)
         }
@@ -140,29 +126,6 @@ const _list = (pageNum) => {
 
 }
 
-// pagination bar
-const _pagination = (data) => {
-    const total = data.length
-    const pagesCount = Math.ceil(total / pageSize)
-    const countArray = new Array(pagesCount)
-
-    const htmlListNav = usersListNavTpl({
-        countArray
-    })
-
-    $('#users-footer').html(htmlListNav)
-
-    _setActivePage(currentPage)
-}
-
-// set active page
-const _setActivePage = (index) => {
-    $('#users-footer #users-list-nav li:not(:first-child, :last-child)')
-        .eq(index - 1)
-        .addClass('active')
-        .siblings()
-        .removeClass('active')
-}
 
 // similar logic to registering new users
 const _register = () => {
