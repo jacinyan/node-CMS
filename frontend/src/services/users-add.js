@@ -11,4 +11,4 @@ export const usersAdd = async (data) => {
     } catch (error) {
         console.log(error);
     }
-}
+}  
