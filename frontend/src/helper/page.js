@@ -1,10 +1,10 @@
 class Page {
-    constructor(){
+    constructor() {
         this.currentPage = 1
-        this.pageSize = 3
+        this.pageSize = 10
     }
 
-    setCurrentPage(currentPage){
+    setCurrentPage(currentPage) {
         this.currentPage = currentPage
     }
 }

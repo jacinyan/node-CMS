@@ -27,6 +27,7 @@ const index = (router) => {
         $('#content').html(usersTpl())
         $('#add-user-btn').on('click', addUser)
 
+        // fetch users data
         _getUsers()
 
         // index page events binding methods
@@ -58,13 +59,13 @@ const index = (router) => {
 
 // PubSub
 const _subscribe = () => {
-  $('body').on('changeCurrentPage', (e, index) => {
-    _list(index);
-    // console.log(page.currentPage);
-  })
-  $('body').on('addUser', (e) => {
+    $('body').on('changeCurrentPage', (e, index) => {
+        _list(index);
+        // console.log(page.currentPage);
+    })
+    $('body').on('addUser', (e) => {
         _getUsers()
-  })
+    })
 }
 
 // methods
@@ -83,7 +84,7 @@ const _methods = () => {
             },
             success() {
                 _getUsers()
-                
+
                 // determine if the current page is empty and if so elimnate curretn page
                 const isLastPage = Math.ceil(sourceUsers.length / pageSize) === page.currentPage
                 const restOne = sourceUsers.length % pageSize === 1
@@ -101,7 +102,7 @@ const _methods = () => {
         e.preventDefault()
         localStorage.removeItem('crm-token')
         location.reload()
-        
+
     })
 }
 
@@ -130,11 +131,6 @@ const _list = (pageNum) => {
     $('#users-list').html(usersListTpl({
         data: sourceUsers.slice(start, start + pageSize)
     }))
-
-
 }
-
-
-
 
 export default index

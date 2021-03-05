@@ -20,10 +20,10 @@ export const addUser = () => {
             success: (result) => {
                 console.log(result);
 
-                // render first page with newly registered user
+                // render first page with newly added user
                 page.setCurrentPage(1)
 
-                // publish _list to re-render
+                // publish for _list to re-render
                 $('body').trigger('addUser')
             }
         })
