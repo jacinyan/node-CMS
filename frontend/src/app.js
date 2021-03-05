@@ -3,7 +3,8 @@ import './assets/common.css'
 // import routes
 import router from './routes'
 
-console.log('app --- 6.js')
+console.log('frontend-app 5.js');
+console.log(router);
 router.go('/')
 
 

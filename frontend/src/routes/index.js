@@ -1,10 +1,10 @@
 import SMERouter from 'sme-router'
 // middleware from controllers
-import index from '../controllers/index'
+import index from '../controllers/users/index'
 import login from '../controllers/login'
 
 const router = new SMERouter('root')
-
+console.log('frontend-routes-index 7.js');
 // route guard -- routing front gate
 router.use(() => {
     // auth 
@@ -16,11 +16,11 @@ router.use(() => {
         },
         success(result) {
             if (result.result) {
-                console.log('routes index --- 19.js')
+                console.log('frontend-routes-index 19.js')
 
                 router.go('/index')
             } else {
-                console.log('routes index --- 23.js')
+                console.log('frontend-routes-index 23.js')
                 router.go('/login')
             }
         }

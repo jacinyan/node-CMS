@@ -1,13 +1,14 @@
-import indexTpl from '../views/index.art'
+import indexTpl from '../../views/index.art'
 
-import usersTpl from '../views/users.art'
-import usersListTpl from '../views/users-list.art'
+import usersTpl from '../../views/users.art'
+import usersListTpl from '../../views/users-list.art'
 
-import pagination from '../components/pagination'
-import page from '../helper/page'
+import pagination from '../../components/pagination'
+import page from '../../helper/page'
+
+import { addUser } from '../../controllers/users/addUser'
 
 const pageSize = page.pageSize
-
 
 // fetch views templates
 const htmlIndex = indexTpl({})
@@ -24,7 +25,9 @@ const index = (router) => {
 
         // fill content with users list at initial rendering
         $('#content').html(usersTpl())
-        _getUsersData()
+        $('#add-user-btn').on('click', addUser)
+
+        _getUsers()
 
         // index page events binding methods
         _methods()
@@ -57,7 +60,10 @@ const index = (router) => {
 const _subscribe = () => {
   $('body').on('changeCurrentPage', (e, index) => {
     _list(index);
-    console.log(page.currentPage);
+    // console.log(page.currentPage);
+  })
+  $('body').on('addUser', (e) => {
+        _getUsers()
   })
 }
 
@@ -76,7 +82,7 @@ const _methods = () => {
                 id: $(this).data('id')
             },
             success() {
-                _getUsersData()
+                _getUsers()
                 
                 // determine if the current page is empty and if so elimnate curretn page
                 const isLastPage = Math.ceil(sourceUsers.length / pageSize) === page.currentPage
@@ -95,27 +101,13 @@ const _methods = () => {
         e.preventDefault()
         localStorage.removeItem('crm-token')
         location.reload()
-        // $.ajax({
-        //     url: '/api/users/logout',
-        //     dataType: 'json',
-        //     headers: {
-        //         'X-Access-Token': localStorage.getItem('crm-token') || ''
-        //     },
-        //     success(result) {
-        //         if (result.result) {
-        //             location.reload()
-        //         }
-        //     }
-        // })
+        
     })
-
-    // _register callback onclick with popup modal
-    $('#users-save').on('click', _register)
 }
 
 
 // fetch users data
-const _getUsersData = () => {
+const _getUsers = () => {
     $.ajax({
         url: '/api/users',
         headers: {
@@ -143,30 +135,6 @@ const _list = (pageNum) => {
 }
 
 
-// similar logic to registering new users
-const _register = () => {
-    const $btn_close = $('#users-close')
 
-    // collect form data
-    const data = $('#users-form').serialize()
-    $.ajax({
-        url: '/api/users',
-        type: 'POST',
-        headers: {
-            'X-Access-Token': localStorage.getItem('crm-token') || ''
-        },
-        data,
-        success: (result) => {
-            console.log(result);
-
-            // render first page with newly registered user
-            page.setCurrentPage(1)
-            _getUsersData()
-        }
-    })
-
-    // trigger close event
-    $btn_close.click()
-}
 
 export default index
