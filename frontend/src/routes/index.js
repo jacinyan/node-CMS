@@ -1,16 +1,17 @@
 import SMERouter from 'sme-router'
 // middleware from controllers
-import index from '../controllers/users/index'
-import login from '../controllers/login'
+import index from '../components/users/index'
+import login from '../components/login'
 
-import { routeGuard } from '../helper/route-guard'
+import { auth } from '../services/auth'
 
 const router = new SMERouter('root')
 console.log('frontend-routes-index 7.js');
 
 // route guard 
 router.use(async () => {
-    let result = await routeGuard()
+    let result = await auth()
+    console.log(result);
     if (result.result) {
         console.log('frontend-routes-index 19.js')
 

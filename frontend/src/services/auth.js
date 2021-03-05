@@ -1,12 +1,13 @@
-export const routeGuard = () => {
-   return $.ajax({
+export const auth = () => {
+    return $.ajax({
         url: '/api/users/isAuth',
         dataType: 'json',
-        headers:{
+        headers: {
             'X-Access-Token': localStorage.getItem('crm-token') || ''
         },
         success(result) {
-           return result
+            console.log(result);
+            return result
         }
     })
 }
