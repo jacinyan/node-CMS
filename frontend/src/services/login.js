@@ -1,16 +1,18 @@
-export const login = (data) => {
-    return new Promise((resolve, reject) => {
-        $.ajax({
+import http from '../utils/http'
+
+export const login = async (data) => {
+    try {
+        let { result, jqXHR } = await http({
             url: '/api/users/login',
-            type: 'POST',
-            dataType: 'json',
             data,
-            success: (result, textStatus, jqXHR) => {
-                resolve({
-                    result,
-                    jqXHR
-                })
-            }
+            type: 'post'
         })
-    })
+        return {
+            result,
+            jqXHR
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
+

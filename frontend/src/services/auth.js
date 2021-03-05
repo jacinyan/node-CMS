@@ -1,14 +1,13 @@
-export const auth = () => {
-    return $.ajax({
-        url: '/api/users/isAuth',
-        dataType: 'json',
-        headers: {
-            'X-Access-Token': localStorage.getItem('crm-token') || ''
-        },
-        success(result) {
-            console.log(result);
-            return result
-        }
-    })
+import http from '../utils/http'
+
+export const auth = async () => {
+    try {
+        let {result} = await http({
+            url: '/api/users/isAuth',
+        })
+        return result
+    } catch (error) {
+        console.log(error);
+    }
 }
 
