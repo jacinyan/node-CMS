@@ -1,6 +1,5 @@
-import indexTpl from '../../templates/index.art'
-
 import usersTpl from '../../templates/users.art'
+
 import usersListTpl from '../../templates/users-list.art'
 
 import pagination from '../../helper/pagination'
@@ -14,21 +13,16 @@ import { usersRemove } from '../../services/users-remove'
 
 const pageSize = page.pageSize
 
-// fetch views templates
-const htmlIndex = indexTpl({})
 
 let sourceUsers = []
 
 const index = (router) => {
-    const loadIndex = (res) => {
-        // render home/admin dashboard
-        res.render(htmlIndex)
-
-        // trigger automatic content wrapper resizing
-        $(window, '.wrapper').resize()
-
+    const loadIndex = (res, next) => {
         // fill content with users list at initial rendering
-        $('#content').html(usersTpl())
+        // $('#content').html(usersTpl())
+        next()
+        res.render(usersTpl({}))
+
         $('#add-user-btn').on('click', addUser)
 
         // fetch users data
@@ -44,9 +38,8 @@ const index = (router) => {
     return async (req, res, next) => {
         let result = await auth()
         if (result.result) {
-            loadIndex(res)
+            loadIndex(res, next)
         } else {
-            console.log('controllers index --- 44.js')
             router.go('/login')
         }
     }

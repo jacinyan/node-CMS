@@ -4,7 +4,6 @@ import { login as loginService } from "../services/login";
 const htmlLogin = loginTpl({})
 
 const login = (router) => {
-    console.log('frontend-routes-login 6.js');
     return (req, res, next) => {
         res.render(htmlLogin)
         console.log('frontend-routes-login 8.js');

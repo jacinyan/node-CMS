@@ -9,7 +9,6 @@
 - ES Module, CommonJS Module
 - Bootstrap(AdminLTE)
 - Art-template
-- SME-router
 
 ## Backend
 

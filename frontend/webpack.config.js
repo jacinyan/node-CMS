@@ -23,12 +23,24 @@ module.exports = {
     module: {
         rules: [{
             test: /\.art$/,
-            use: [{ loader: 'art-template-loader' },]
+            use: [{ loader: 'art-template-loader', options: { escape: false } },]
         },
         {
             test: /\.css$/i,
             loaders: ['style-loader', 'css-loader']
-        }]
+        },
+        {
+            test: /\.(png|jpg|gif)$/i,
+            use: [
+                {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8192,
+                    },
+                },
+            ],
+        }
+    ]
     },
 
     plugins: [
@@ -65,8 +77,8 @@ module.exports = {
         port: 9000,
         proxy: {
             '/api': {
-              target: 'http://localhost:3000',
+                target: 'http://localhost:3000',
             },
-          },
+        },
     }
 }
