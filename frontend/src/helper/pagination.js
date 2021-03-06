@@ -30,7 +30,8 @@ const _setActivePage = (index) => {
 
 const _bindEvents = (data, pageSize) => {
     // page navigation callback
-    $('#users-footer').on('click', '#users-list-nav li:not(:first-child, :last-child)', function () {
+    // off click binding
+    $('#users-footer').off('click').on('click', '#users-list-nav li:not(:first-child, :last-child)', function () {
         const index = $(this).index()
 
         page.setCurrentPage(index)

@@ -1,5 +1,6 @@
 import indexTpl from '../templates/index.art'
 import { auth } from '../services/auth'
+import pageHeader from '../helper/pageheader'
 
 import img from '../assets/user2-160x160.jpg'
 
@@ -18,11 +19,8 @@ const index = (router) => {
             // trigger automatic content wrapper resizing
             $(window, '.wrapper').resize()
 
-
-            // $lis.on('click', function () {
-            //     const url = $(this).attr('to')
-            //     router.go(url)
-            // })
+            // load pageheader
+            pageHeader()
 
             const $as = $('#sidebar-menu li:not(:first-child) a')
             let hash = location.hash

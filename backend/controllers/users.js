@@ -107,7 +107,6 @@ const remove = async (req, res, next) => {
 
     const { id } = req.body
     let result = await User.removeUser(id)
-    console.log(result);
     if (result) {
         res.render('success', {
             data: JSON.stringify({

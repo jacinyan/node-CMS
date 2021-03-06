@@ -24,7 +24,6 @@ const findList = () => {
 }
 
 const removeUser = id => {
-    console.log(id);
     return User.deleteOne({_id: id})
 }
 
