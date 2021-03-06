@@ -1,5 +1,5 @@
 // import User model from Model
-const User = require('../model/user')
+const User = require('../models/user')
 // encrypt password
 const { hash, compare, sign, verify } = require('../utils/tools')
 
@@ -123,6 +123,7 @@ const remove = async (req, res, next) => {
 }
 
 const isAuth = async (req, res, next) => {
+    console.log(0);
     let token = req.get('X-Access-Token')
     try {
         let result = verify(token)

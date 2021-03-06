@@ -4,7 +4,7 @@
       <small>{{subNav.toUpperCase()}}</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> {{mainNav.toLowerCase()}}</a></li>
-      <li class="active">{{subNav}}</li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">{{mainNav}}</li>
     </ol>
   </section>

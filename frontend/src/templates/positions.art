@@ -8,8 +8,8 @@
             <tr>
                 <th style="width: 15px">#</th>
                 <th style="width: 100px">Logo</th>
-                <th>Company Name</th>  
-                <th>Position Name</th>  
+                <th>Company</th>  
+                <th>Position</th>  
                 <th style="width: 150px">Location</th>  
                 <th style="width: 100px">Salary</th>  
                 <th style="width: 180px">Created at</th>  

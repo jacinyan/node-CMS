@@ -2,6 +2,8 @@ import indexTpl from '../templates/index.art'
 import { auth } from '../services/auth'
 import pageHeader from '../helper/pageheader'
 
+import page from '../helper/page'
+
 import img from '../assets/user2-160x160.jpg'
 
 const index = (router) => {
@@ -13,7 +15,7 @@ const index = (router) => {
                 img
             })
 
-            // render Index
+            // render Index 
             next(html)
 
             // trigger automatic content wrapper resizing
@@ -27,9 +29,18 @@ const index = (router) => {
             $as
                 .filter(`[href="${hash}"]`)
                 .parent()
-                .addClass()
+                .addClass('active')
                 .siblings()
                 .removeClass('active')
+
+            // whether to reset page 
+            if (hash !==page.currentRoute){
+                page.reset()
+            }
+
+            // save current url
+            page.currentRoute(hash)
+
         } else {
             router.go('/login')
         }

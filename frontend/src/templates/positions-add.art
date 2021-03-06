@@ -15,19 +15,18 @@
                     <form role="form" id="positions-form">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="logo">Company Name</label>
-                                <input type="text" class="form-control" id="logo" name="logo"
-                                    placeholder="Company name...">
+                                <label for="logo">Company</label>
+                                <input type="text" class="form-control" id="logo" name="logo" placeholder="Company...">
                             </div>
                             <div class="form-group">
                                 <label for="position-name">Position</label>
                                 <input type="text" class="form-control" id="position-name" name="position-name"
-                                    placeholder="Position name...">
+                                    placeholder="Position...">
                             </div>
                             <div class="form-group">
-                                <label for="city">City</label>
-                                <input type="text" class="form-control" id="city" name="city"
-                                    placeholder="City...">
+                                <label for="location">Location</label>
+                                <input type="text" class="form-control" id="location" name="location"
+                                    placeholder="Location...">
                             </div>
                             <div class="form-group">
                                 <label for="salary">Salary</label>

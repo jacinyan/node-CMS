@@ -37,6 +37,7 @@ const _bindEvents = (data, pageSize) => {
         page.setCurrentPage(index)
 
         $('body').trigger('changeCurrentPage', index)
+
         _setActivePage(index)
     })
 
@@ -44,7 +45,7 @@ const _bindEvents = (data, pageSize) => {
     $('#users-footer').on('click', '#users-list-nav li:first-child', function () {
         if (page.currentPage > 1) {
             page.setCurrentPage(page.currentPage - 1)
-            
+
             $('body').trigger('changeCurrentPage', page.currentPage)
             _setActivePage(page.currentPage)
         }

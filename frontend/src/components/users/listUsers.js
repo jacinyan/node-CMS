@@ -59,7 +59,7 @@ const _subscribe = () => {
 // methods
 const _methods = () => {
     // bind remove user event to list container instead of the button(event delegate/bubbling)
-    $('#users-list').on('click', '.remove', async function () {
+    $('#users-list').off('click').on('click', '.remove', async function () {
         let result = await usersRemove($(this).data('id'))
         if (result.result) {
             _getUsers()

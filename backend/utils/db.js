@@ -16,5 +16,18 @@ const usersSchema = new mongoose.Schema({
   });
 
 const usersModel = mongoose.model('users', usersSchema);
+
+// position model
+const positionsSchema = new mongoose.Schema({
+    company: String,
+    position: String,
+    location: String,
+    createTime: String,
+    salary: String
+})
+
+const positionsModel = mongoose.model('positions', positionsSchema)
+
  
 exports.User = usersModel
+exports.Position = positionsModel

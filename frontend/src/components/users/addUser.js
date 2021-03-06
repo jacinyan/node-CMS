@@ -1,7 +1,7 @@
 import usersAddTpl from '../../templates/users-add.art'
 import page from "../../helper/page";
 
-import {usersAdd} from '../../services/users-add'
+import { usersAdd } from '../../services/users-add'
 
 export const addUser = () => {
     // new modal popup on click(clear filled content)
@@ -9,10 +9,9 @@ export const addUser = () => {
     $('#users-list-box').after(htmlAddUsers)
 
     // collect form data
-    const _save = async() => {
+    const _save = async () => {
         const data = $('#users-form').serialize()
         let result = await usersAdd(data)
-        console.log(result);
         if (result.result) {
             // render first page with newly added user
             page.setCurrentPage(1)
