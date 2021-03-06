@@ -1,10 +1,10 @@
 <section class="content-header">
     <h1>
       {{mainNav}}
-      <small>{{subNav}}</small>
+      <small>{{subNav.toUpperCase()}}</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> {{mainNav}}</a></li>
+      <li><a href="#"><i class="fa fa-dashboard"></i> {{mainNav.toLowerCase()}}</a></li>
       <li class="active">{{subNav}}</li>
     </ol>
   </section>

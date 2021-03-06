@@ -1,0 +1,28 @@
+<div class="box" id="positions-list-box">
+    <div class="box-header">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#positionModal" id="add-position-btn">Add Position</button>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table class="table table-bordered">
+            <tr>
+                <th style="width: 15px">#</th>
+                <th style="width: 100px">Logo</th>
+                <th>Company Name</th>  
+                <th>Position Name</th>  
+                <th style="width: 150px">Location</th>  
+                <th style="width: 100px">Salary</th>  
+                <th style="width: 180px">Created at</th>  
+                <th style="width: 180px">Tags</th>
+            </tr>
+            <!-- list container -- check users-list.art -->
+            <tbody id="positions-list"></tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix" id="users-footer">
+        <!-- pagination/navigation buttons ---check users-list-nav.art -->
+    </div>
+</div>
+<!-- /.box -->
+

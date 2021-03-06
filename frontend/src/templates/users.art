@@ -1,6 +1,6 @@
 <div class="box" id="users-list-box">
     <div class="box-header">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="add-user-btn">Add User</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#usersModal" id="add-user-btn">Add User</button>
     </div>
     <!-- /.box-header -->
     <div class="box-body">

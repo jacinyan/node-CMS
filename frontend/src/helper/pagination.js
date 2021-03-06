@@ -46,17 +46,14 @@ const _bindEvents = (data, pageSize) => {
             page.setCurrentPage(page.currentPage - 1)
             
             $('body').trigger('changeCurrentPage', page.currentPage)
-            console.log('left');
             _setActivePage(page.currentPage)
         }
     })
 
     $('#users-footer').on('click', '#users-list-nav li:last-child', function () {
-        console.log(page.currentPage);
         if (page.currentPage < Math.ceil(data.length / pageSize)) {
             page.setCurrentPage(page.currentPage + 1)
             $('body').trigger('changeCurrentPage', page.currentPage)
-            console.log('right');
             _setActivePage(page.currentPage)
         }
     })

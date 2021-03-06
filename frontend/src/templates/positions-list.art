@@ -1,0 +1,15 @@
+{{each data}}
+<tr>
+    <td>1.</td>
+    <td><img src="http://placehold.it/50x50" width='50' height='50' alt=""></td>
+    <td>abc</td>
+    <td>abc</td>
+    <td>abc</td>
+    <td>abc</td>
+    <td>abc</td>
+    <td>
+        <button data-id="{{$value._id}}" class="btn btn-primary update">Update</button>
+        <button data-id="{{$value._id}}" class="btn btn-danger remove">Delete</button>
+    </td>
+</tr>
+{{/each}}
