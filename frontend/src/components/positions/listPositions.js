@@ -5,13 +5,17 @@ import pagination from '../../helper/pagination'
 import page from '../../helper/page'
 
 import { auth } from '../../services/auth'
-import { positionsList} from '../../services/positions'
+import { positionsList } from '../../services/positions'
 
-import {addPosition} from './addPosition'
+import { addPosition } from './addPosition'
+import { remove } from '../../helper/remove'
+
 
 const pageSize = page.pageSize
 
-let dataSource = []
+let state = {
+  source: []
+}
 
 const listPositions = (router) => {
   return async (req, res, next) => {
@@ -28,6 +32,13 @@ const listPositions = (router) => {
 
       // 
       addPosition()
+
+      remove({
+        $box: $('#positions-list'),
+        state,
+        url: '/api/positions',
+        loadData: _loadData
+      })
 
     } else {
       router.go('/login')
@@ -46,23 +57,23 @@ const _subscribe = () => {
   })
 }
 
-// fetch users data
+// fetch positions data
 const _loadData = async () => {
   const list = await positionsList()
 
-  dataSource = list
+  state.source = list
   // pagination once only with each data fetching
-  pagination(dataSource)
+  pagination(list)
   // data rendering when login and new registered user
   _list(page.currentPage)
 }
 
-// calculate pages num with each operation
+// calculate pages index with each operation
 const _list = (pageNum) => {
   let start = (pageNum - 1) * pageSize
   // render positions list
   $('#positions-list').html(positionsListTpl({
-    data: dataSource.slice(start, start + pageSize)
+    data: state.source.slice(start, start + pageSize)
   }))
 }
 

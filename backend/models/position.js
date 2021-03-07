@@ -8,3 +8,7 @@ exports.addPosition = (data) => {
 exports.listPositions = () => {
   return Position.find({}).sort({_id:-1})
 }
+
+exports.removePosition = (id) => {
+  return Position.deleteOne({_id: id})
+}

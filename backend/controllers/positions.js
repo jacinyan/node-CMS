@@ -35,3 +35,28 @@ exports.list = async (req,res,next) => {
   }
 }
 
+exports.remove = async (req,res,next) => {
+  res.set('content-type', 'application/json;charset=utf-8')
+  let result = await Position.removePosition(req.body.id)
+  try {
+      if (result.deletedCount > 0){
+        res.render('success', {
+            data: JSON.stringify({
+                message: 'Successfully deleted'
+            })
+        })
+      } else {
+        res.render('fail', {
+            data: JSON.stringify({
+                message: 'Failed to delete'
+            })
+        })
+      }
+  } catch (error) {
+    res.render('fail', {
+        data: JSON.stringify({
+            message: 'Failed to delete'
+        })
+    })
+  }
+}
