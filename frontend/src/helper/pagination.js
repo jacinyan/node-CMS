@@ -2,8 +2,10 @@ import usersListNavTpl from '../templates/users-list-nav.art'
 // global page instance
 import page from './page'
 
+const pageSize = page.pageSize
+
 // pagination bar
-const pagination = (data, pageSize) => {
+const pagination = (data) => {
     const total = data.length
     const pagesCount = Math.ceil(total / pageSize)
     const countArray = new Array(pagesCount)
@@ -28,7 +30,7 @@ const _setActivePage = (index) => {
         .removeClass('active')
 }
 
-const _bindEvents = (data, pageSize) => {
+const _bindEvents = (data) => {
     // page navigation callback
     // off click binding
     $('#users-footer').off('click').on('click', '#users-list-nav li:not(:first-child, :last-child)', function () {

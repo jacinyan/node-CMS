@@ -34,12 +34,12 @@ const index = (router) => {
                 .removeClass('active')
 
             // whether to reset page 
-            if (hash !==page.currentRoute){
+            if (hash !== page.currentRoute) {
                 page.reset()
             }
 
             // save current url
-            page.currentRoute(hash)
+            page.setCurrentRoute(hash)
 
         } else {
             router.go('/login')

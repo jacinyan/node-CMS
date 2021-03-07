@@ -13,7 +13,6 @@ import { usersRemove } from '../../services/users-remove'
 
 const pageSize = page.pageSize
 
-
 let sourceUsers = []
 
 const index = (router) => {
@@ -87,10 +86,10 @@ const _methods = () => {
 // fetch users data
 const _getUsers = async () => {
     let result = await usersList()
-    sourceUsers = result.data
 
+    sourceUsers = result.data
     // pagination once only with each data fetching
-    pagination(result.data, pageSize)
+    pagination(result.data)
     // data rendering when login and new registered user
     _list(page.currentPage)
 }

@@ -10,7 +10,7 @@ class Page {
         this.pageSize = 3
     }
 
-    setCurrentRoute(){
+    setCurrentRoute(route){
         this.currentRoute = route
     }
 
