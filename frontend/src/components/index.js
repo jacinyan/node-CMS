@@ -41,6 +41,13 @@ const index = (router) => {
             // save current url
             page.setCurrentRoute(hash)
 
+            // user sign out binding 
+            $('#users-sign-out').on('click', (e) => {
+                e.preventDefault()
+                localStorage.removeItem('crm-token')
+                location.reload()
+            })
+
         } else {
             router.go('/login')
         }

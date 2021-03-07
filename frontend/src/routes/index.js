@@ -28,8 +28,8 @@ router.route('/index', index(router))
 router.route('/index/users', listUsers(router))
 router.route('/index/positions', listPositions(router))
 
-router.route('*', (req,res,next) => {
-  res.redirect('/index/users')
+router.route('*', (req, res, next) => {
+    res.redirect('/index/users')
 })
 
 export default router

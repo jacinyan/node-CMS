@@ -18,7 +18,6 @@ export const addUser = () => {
             // publish for _list to re-render
             $('body').trigger('addUser')
         }
-
         // trigger close event
         const $btn_close = $('#users-close')
         $btn_close.click()

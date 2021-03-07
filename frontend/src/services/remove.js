@@ -1,11 +1,11 @@
 import http from '../utils/http'
 
-export const usersRemove = async (id) => {
+export const remove = async ({ url, id }) => {
     try {
-        let {result} = await http({
-            url: '/api/users',
+        let { result } = await http({
+            url,
             type: 'delete',
-            data: {id}
+            data: { id }
         })
         return result
     } catch (error) {

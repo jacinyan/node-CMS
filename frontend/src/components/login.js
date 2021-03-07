@@ -6,7 +6,6 @@ const htmlLogin = loginTpl({})
 const login = (router) => {
     return (req, res, next) => {
         res.render(htmlLogin)
-        console.log('frontend-routes-login 8.js');
         $('#login').on('submit', _handleSubmit(router))
     }
 }
@@ -19,8 +18,6 @@ const _handleSubmit = (router) => {
         const token = jqXHR.getResponseHeader('X-Access-Token')
             localStorage.setItem('crm-token', token)
             if (result.result){
-                console.log('frontend-controllers-login --- 26.js')
-
                 router.go('/index')
             }
     }

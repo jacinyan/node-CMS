@@ -6,5 +6,5 @@ exports.addPosition = (data) => {
 }
 
 exports.listPositions = () => {
-  return Position.find({})
+  return Position.find({}).sort({_id:-1})
 }
