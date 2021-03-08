@@ -36,7 +36,7 @@ const listPositions = (router) => {
       remove({
         $box: $('#positions-list'),
         state,
-        url: '/api/positions',
+        url: '/api/positions/remove',
         loadData: _loadData
       })
 

@@ -18,7 +18,7 @@ const _handleSubmit = (router) => {
         const token = jqXHR.getResponseHeader('X-Access-Token')
             localStorage.setItem('crm-token', token)
             if (result.result){
-                router.go('/index')
+                router.go('/index/users')
             }
     }
 }

@@ -83,7 +83,7 @@ const login = async (req, res, next) => {
 
 // users log out
 const logout = async (req, res, next) => {
-    req.session = null
+    // req.token = null
     res.render('success', {
         data: JSON.stringify({
             message: 'Logged out'

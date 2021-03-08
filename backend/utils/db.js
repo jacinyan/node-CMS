@@ -19,6 +19,7 @@ const usersModel = mongoose.model('users', usersSchema);
 
 // position model
 const positionsSchema = new mongoose.Schema({
+    logo:String,
     company: String,
     position: String,
     location: String,
