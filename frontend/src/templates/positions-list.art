@@ -1,7 +1,7 @@
 {{each data}}
 <tr>
     <td>{{$index+1}}</td>
-    <td><img src="http://placehold.it/50x50" width='50' height='50' alt=""></td>
+    <td><img src="http://localhost:3000/uploads/{{$value.logo}}" width='50' height='50' alt=""></td>
     <td>{{$value.company}}</td>
     <td>{{$value.position}}</td>
     <td>{{$value.location}}</td>
