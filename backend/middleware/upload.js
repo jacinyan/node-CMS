@@ -4,7 +4,7 @@ const mime = require('mime')
 
 let filename = ''
 
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, path.resolve(__dirname, '../public/uploads/'))
     },
@@ -15,6 +15,51 @@ var storage = multer.diskStorage({
     }
 })
 
-var upload = multer({ storage })
+const limits = {
+    fileSize: 200000,
+    files: 1
+}
 
-module.exports = upload
+function fileFilter (req, file, cb) {
+    const acceptType = [
+        'image/png',
+        'image/jpg',
+        'image/jpeg',
+        'image/gif'
+    ]
+
+    const mimetype = mime.getType(file.mimetype)
+    if (acceptType.includes(mimetype)){
+        cb(new Error('File type must be either \'png,jpg or gif\''))
+    }
+  
+  }
+
+const upload = multer({
+    storage,
+    limits,
+    fileFilter
+}).single('logo')
+
+// upload.single('logo')
+const uploadMiddleware = (req, res, next) => {
+    upload(req, res, (err) => {
+        if (err instanceof multer.MulterError) {
+            res.render('fail', {
+                data: JSON.stringify({
+                    message: 'File exceeds 200K'
+                })
+            })
+        } else if (err) {
+            res.render('fail', {
+                data: JSON.stringify({
+                    message: err.message
+                })
+            })
+        }
+
+        next()
+    }) 
+}
+
+module.exports = uploadMiddleware
