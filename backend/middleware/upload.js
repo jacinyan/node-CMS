@@ -28,9 +28,10 @@ function fileFilter(req, file, cb) {
         'image/gif'
     ]
 
-    const mimetype = mime.getType(file.mimetype)
-    if (!acceptType.includes(mimetype)) {
+    if (!acceptType.includes(file.mimetype)) {
         cb(new Error('File type must be either png,jpg or gif'))
+    } else {
+        cb(null, true)
     }
 
 }
@@ -56,9 +57,9 @@ const uploadMiddleware = (req, res, next) => {
                     message: err.message
                 })
             })
+        } else {
+            next()
         }
-        next()
-
     })
 }
 
