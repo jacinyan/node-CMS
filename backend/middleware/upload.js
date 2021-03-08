@@ -20,7 +20,7 @@ const limits = {
     files: 1
 }
 
-function fileFilter (req, file, cb) {
+function fileFilter(req, file, cb) {
     const acceptType = [
         'image/png',
         'image/jpg',
@@ -29,11 +29,11 @@ function fileFilter (req, file, cb) {
     ]
 
     const mimetype = mime.getType(file.mimetype)
-    if (acceptType.includes(mimetype)){
-        cb(new Error('File type must be either \'png,jpg or gif\''))
+    if (!acceptType.includes(mimetype)) {
+        cb(new Error('File type must be either png,jpg or gif'))
     }
-  
-  }
+
+}
 
 const upload = multer({
     storage,
@@ -43,7 +43,7 @@ const upload = multer({
 
 // upload.single('logo')
 const uploadMiddleware = (req, res, next) => {
-    upload(req, res, (err) => {
+    upload(req, res, function (err) {
         if (err instanceof multer.MulterError) {
             res.render('fail', {
                 data: JSON.stringify({
@@ -57,9 +57,9 @@ const uploadMiddleware = (req, res, next) => {
                 })
             })
         }
-
         next()
-    }) 
+
+    })
 }
 
 module.exports = uploadMiddleware
