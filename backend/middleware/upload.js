@@ -31,6 +31,7 @@ function fileFilter(req, file, cb) {
     if (!acceptType.includes(file.mimetype)) {
         cb(new Error('File type must be either png,jpg or gif'))
     } else {
+        // To accept the file pass `true`, like so:
         cb(null, true)
     }
 
@@ -58,6 +59,7 @@ const uploadMiddleware = (req, res, next) => {
                 })
             })
         } else {
+            req.logo = filename
             next()
         }
     })

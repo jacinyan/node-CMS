@@ -2,9 +2,11 @@ const Position = require('../models/position')
 const moment = require('moment')
 
 exports.add = async (req, res, next) => {
+    console.log(req.logo);
     res.set('content-type', 'application/json;charset=utf-8')
     let result = await Position.addPosition({
         ...req.body,
+        logo: req.logo,
         createTime: moment().format('Do MMMM YYYY HH:mm')
     })
     if (result) {
