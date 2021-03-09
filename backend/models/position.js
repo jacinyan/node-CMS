@@ -12,3 +12,7 @@ exports.listPositions = () => {
 exports.removePosition = (id) => {
   return Position.deleteOne({_id: id})
 }
+
+exports.updatePosition = (data) => {
+    return Position.findByIdAndUpdate(data.id, data)
+}
