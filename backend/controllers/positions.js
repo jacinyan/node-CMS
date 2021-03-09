@@ -65,11 +65,16 @@ exports.remove = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     res.set('content-type', 'application/json;charset=utf-8')
-    let result = await Position.updatePosition({
-        ...req.body,
-        logo: req.logo,
-        createTime: moment().format('Do MMMM YYYY HH:mm')
-    })
+
+    const data = {
+        ...req.body
+    }
+    
+    if (req.logo){
+        data['logo'] = req.logo
+    }
+
+    let result = await Position.updatePosition(data)
     if (result) {
         res.render('success', {
             data: JSON.stringify({

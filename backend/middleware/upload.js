@@ -1,6 +1,7 @@
 const path = require('path')
 const multer = require('multer')
 const mime = require('mime')
+const fs = require('fs')
 
 let filename = ''
 
@@ -9,6 +10,7 @@ const storage = multer.diskStorage({
         cb(null, path.resolve(__dirname, '../public/uploads/'))
     },
     filename: function (req, file, cb) {
+        console.log(100);
         let extension = mime.getExtension(file.mimetype)
         filename = file.fieldname + '-' + Date.now() + '.' + extension
         cb(null, filename)
@@ -59,6 +61,16 @@ const uploadMiddleware = (req, res, next) => {
                 })
             })
         } else {
+            const { logo_prev } = req.body
+            console.log(logo_prev);
+            if (filename !== '' && logo_prev) {
+                try {
+                    fs.unlinkSync(path.join(__dirname, `../public/uploads/${logo_prev}`))
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            
             req.logo = filename
             next()
         }

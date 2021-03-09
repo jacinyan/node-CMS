@@ -8,6 +8,8 @@ import { auth } from '../../services/auth'
 import { positionsList } from '../../services/positions'
 
 import { addPosition } from './addPosition'
+import { updatePosition } from './updatePosition'
+
 import { remove } from '../../helper/remove'
 
 
@@ -32,6 +34,9 @@ const listPositions = (router) => {
 
       // 
       addPosition()
+
+      // 
+      updatePosition()
 
       remove({
         $box: $('#positions-list'),

@@ -1,20 +1,7 @@
 import http from '../utils/http'
 
-export const positionsAdd =  (data) => {
-    // try {
-        // let { result } = await http({
-        //     url: '/api/positions/add',
-        //     type: 'POST',
-        //     data,
-        // })
-        // return result
-
-    // } catch (error) {
-        // console.log(error);
-    // }
-
+export const positionsAdd = () => {
     return new Promise((resolve, reject) => {
-        
         var options = {
             url: "/api/positions/add", //default: form action; replaced by explicit statement
             type: "post",   //default: get or post; replaced by explicit statement
@@ -22,16 +9,16 @@ export const positionsAdd =  (data) => {
             success: (result) => {
                 resolve(result)
             },  //callback after successful submission
-            error: (error)=>{
+            error: (error) => {
                 reject(error)
             },
             // target: "#output",  //stuff response from server into element with certain id
             dataType: "json", //acceptContent type: html(default), xml, script, json...
             // clearForm: true,  
-            resetForm: true,  
-            timeout: 10000    
+            resetForm: true,
+            timeout: 10000
         };
-  
+
         $('#positions-form').ajaxSubmit(options)
     })
 }
