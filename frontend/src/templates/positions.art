@@ -1,6 +1,6 @@
 <div class="box" id="positions-list-box">
     <div class="box-header">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#positionModal" id="add-position-btn">Add Position</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#positions-modal" id="add-position-btn">Add Position</button>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
