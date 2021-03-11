@@ -89,3 +89,16 @@ exports.update = async (req, res, next) => {
         })
     }
 }
+
+exports.listRefill = async (req,res,next) => {
+    let result = await Position.refillPosition(req.body.id)
+    if (result) {
+        res.json(result)
+    } else {
+        res.render('fail', {
+            data: JSON.stringify({
+                message: 'Failed to fetch position'
+            })
+        })
+    }
+}

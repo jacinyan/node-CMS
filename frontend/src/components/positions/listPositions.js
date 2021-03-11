@@ -8,7 +8,7 @@ import { auth } from '../../services/auth'
 import { positionsList } from '../../services/positions'
 
 import { addPosition } from './addPosition'
-import { updatePosition } from './updatePosition'
+import { updatePosition, fillPositionsUpdateTpl } from './updatePosition'
 
 import { remove } from '../../helper/remove'
 
@@ -35,14 +35,18 @@ const listPositions = (router) => {
       // 
       addPosition()
 
-      // 
-      updatePosition()
-
       remove({
         $box: $('#positions-list'),
         state,
         url: '/api/positions/remove',
         loadData: _loadData
+      })
+
+      updatePosition()
+
+      $('#positions-list ').off('click','.positions-update' ).on('click', '.positions-update', function() {
+        // update position
+        fillPositionsUpdateTpl($(this).data('id'))
       })
 
     } else {

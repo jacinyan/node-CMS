@@ -16,3 +16,7 @@ exports.removePosition = (id) => {
 exports.updatePosition = (data) => {
     return Position.findByIdAndUpdate(data.id, data)
 }
+
+exports.refillPosition = (id) => {
+  return Position.findOne({_id: id})
+}

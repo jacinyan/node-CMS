@@ -1,0 +1,28 @@
+<div class="box-body">
+    <div class="form-group">
+        <label for="logo">Logo</label>
+        <img src="http://localhost:3000/uploads/{{data.logo}}" style="width:50px;height:50px;" alt="">
+        <input type="file" class="form-control" id="logo" name="logo" placeholder="Company logo...">
+    </div>
+    <div class="form-group">
+        <label for="company">Company</label>
+        <input type="text" value="{{data.company}}" class="form-control" id="company" name="company" placeholder="Company...">
+    </div>
+    <div class="form-group">
+        <label for="position">Position</label>
+        <input type="text" value="{{data.position}}" class="form-control" id="position" name="position"
+            placeholder="Position...">
+    </div>
+    <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" value="{{data.location}}"  class="form-control" id="location" name="location"
+            placeholder="Location...">
+    </div>
+    <div class="form-group">
+        <label for="salary">Salary</label>
+        <input type="text" value="{{data.salary}}"  class="form-control" id="salary" name="salary"
+            placeholder="Salary...">
+    </div>
+    <input type="hidden" value="{{data._id}}" name="id">
+    <input type="hidden" value="{{data.logo}}" name="logo_prev">
+</div>
