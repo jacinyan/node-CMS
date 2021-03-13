@@ -123,11 +123,9 @@ const remove = async (req, res, next) => {
 }
 
 const isAuth = async (req, res, next) => {
-    console.log(0);
     let token = req.get('X-Access-Token')
     try {
         let result = verify(token)
-        console.log(result);
         res.render('success', {
             data: JSON.stringify({
                 username: result.username

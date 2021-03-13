@@ -48,6 +48,14 @@ const index = (router) => {
                 location.reload()
             })
 
+            // socket
+            var socket = io.connect('http://localhost:3000');
+
+            socket.on('message', function (msg) {
+              let num = ~~$('#icon-envelope').text()
+              $('#icon-envelope').text(++num)
+            })
+
         } else {
             router.go('/login')
         }
