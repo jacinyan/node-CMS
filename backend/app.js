@@ -9,10 +9,9 @@ var logger = require('morgan');
 
 var app = express();
 
-// import usersRouter
-const usersRouter = require('./routes/users');
-// 
+const usersRouter = require('./routes/users'); 
 const positionsRouter = require('./routes/positions')
+const mobileRouter = require('./routes/mobile')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,6 +34,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // specify users routes
 app.use('/api/users', usersRouter);
 app.use('/api/positions', positionsRouter)
+
+app.use('/mobile', mobileRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
