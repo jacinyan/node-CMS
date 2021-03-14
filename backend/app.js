@@ -6,6 +6,8 @@ var logger = require('morgan');
 var cors = require('cors')
 // import cookie-session
 // var cookieSession = require('cookie-session')
+
+// access env variable
 require('dotenv').config({ path: '.env' })
 
 var app = express();
@@ -29,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //   keys: ['key1', 'key2']
 // }))
 
-// allow cors(achieved another way with webpack proxy config )
+// allow cors(achieved with webpack proxy config as well)
 app.use(cors())
 
 // specify users routes

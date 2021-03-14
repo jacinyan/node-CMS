@@ -83,7 +83,7 @@ const uploadMiddleware = (req, res, next) => {
             } else if (!req.file && logo_prev) {
                 req.logo = logo_prev
             } else {
-                console.log(req.file);
+                // console.log(req.file);
                 req.logo = req.file.key
             }
 
