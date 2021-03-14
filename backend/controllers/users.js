@@ -35,7 +35,7 @@ const register = async (req, res, next) => {
 
         res.render('success', {
             data: JSON.stringify({
-                message: 'Successfully registered'
+                message: 'User successfully added '
             })
         })
     }
@@ -86,7 +86,7 @@ const logout = async (req, res, next) => {
     // req.token = null
     res.render('success', {
         data: JSON.stringify({
-            message: 'Logged out'
+            message: 'Successfully Logged out'
         })
     })
 }
@@ -117,7 +117,7 @@ const remove = async (req, res, next) => {
     }
     res.render('fail', {
         data: JSON.stringify({
-            message: 'User not successfully deleted'
+            message: 'User failed to delete'
         })
     })
 }

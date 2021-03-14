@@ -1,21 +1,31 @@
-const path = require('path')
 const multer = require('multer')
 const mime = require('mime')
-const fs = require('fs')
 
-// let filename = ''
+const aws = require('aws-sdk')
+const multerS3 = require("multer-s3");
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.resolve(__dirname, '../public/uploads/'))
+const s3 = new aws.S3();
+
+
+aws.config.update({
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    region: "ap-southeast-2",
+});
+
+const cloudStorage = multerS3({
+    acl: "public-read",
+    s3: s3,
+    bucket: "node-crm-s3-multer-upload",
+    metadata: function (req, file, cb) {
+        cb(null, { fieldname: file.fieldname });
     },
-    filename: function (req, file, cb) {
-        console.log(100);
+    key: function (req, file, cb) {
         let extension = mime.getExtension(file.mimetype)
         let filename = file.fieldname + '-' + Date.now() + '.' + extension
-        cb(null, filename)
-    }
-})
+        cb(null, filename);
+    },
+});
 
 const limits = {
     fileSize: 200000,
@@ -40,12 +50,13 @@ function fileFilter(req, file, cb) {
 }
 
 const upload = multer({
-    storage,
+    // storage,
+    storage: cloudStorage,
     limits,
     fileFilter
 }).single('logo')
 
-// upload.single('logo')
+
 const uploadMiddleware = (req, res, next) => {
     upload(req, res, function (err) {
         if (err instanceof multer.MulterError) {
@@ -64,15 +75,16 @@ const uploadMiddleware = (req, res, next) => {
             const { logo_prev } = req.body
             if (req.file && logo_prev) {
                 try {
-                    fs.unlinkSync(path.join(__dirname, `../public/uploads/${logo_prev}`))
-                    req.logo = req.file.filename
+                    console.log('update position with a new logo');
+                    req.logo = req.file.key
                 } catch (error) {
                     console.log(error);
                 }
             } else if (!req.file && logo_prev) {
                 req.logo = logo_prev
             } else {
-                req.logo = req.file.filename
+                console.log(req.file);
+                req.logo = req.file.key
             }
 
             next()

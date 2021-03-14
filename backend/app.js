@@ -3,9 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-// var cors = require('cors')
+var cors = require('cors')
 // import cookie-session
 // var cookieSession = require('cookie-session')
+require('dotenv').config({ path: '.env' })
 
 var app = express();
 
@@ -29,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // }))
 
 // allow cors(achieved another way with webpack proxy config )
-// app.use(cors())
+app.use(cors())
 
 // specify users routes
 app.use('/api/users', usersRouter);

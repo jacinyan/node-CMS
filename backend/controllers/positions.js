@@ -9,17 +9,15 @@ exports.add = async (req, res, next) => {
         createTime: moment().format('Do MMMM YYYY HH:mm')
     })
     if (result) {
-        process.socket.emit('message', 'ok')    
-
         res.render('success', {
             data: JSON.stringify({
-                message: 'Successfully added'
+                message: 'Position successfully added'
             })
         })
     } else {
         res.render('fail', {
             data: JSON.stringify({
-                message: 'Failed to add'
+                message: 'Position failed to add '
             })
         })
     }
@@ -45,13 +43,13 @@ exports.remove = async (req, res, next) => {
         if (result.deletedCount > 0) {
             res.render('success', {
                 data: JSON.stringify({
-                    message: 'Successfully deleted'
+                    message: 'Position successfully deleted'
                 })
             })
         } else {
             res.render('fail', {
                 data: JSON.stringify({
-                    message: 'Failed to delete'
+                    message: 'Position failed to delete'
                 })
             })
         }
@@ -79,13 +77,13 @@ exports.update = async (req, res, next) => {
     if (result) {
         res.render('success', {
             data: JSON.stringify({
-                message: 'Successfully updated'
+                message: 'Position successfully updated'
             })
         })
     } else {
         res.render('fail', {
             data: JSON.stringify({
-                message: 'Failed to update'
+                message: 'Position failed to update'
             })
         })
     }
